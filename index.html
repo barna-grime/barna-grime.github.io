@@ -45,7 +45,7 @@ p{font-size:1.08rem;line-height:1.5;margin:.5em 0}
 .freq{font-family:var(--mono);color:var(--amber);font-size:.8rem;letter-spacing:.2em}
 /* bottom */
 .bot{display:flex;gap:8px;padding:10px 14px calc(10px + var(--sb));border-top:1px solid var(--edge);background:#0d0e0f}
-.nb{border:1px solid #000;border-radius:10px;padding:14px 16px;background:linear-gradient(180deg,#34393e,#22262a);box-shadow:0 2px 0 #000;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;font-size:.9rem}
+.nb{border:1px solid #000;border-radius:10px;padding:14px 11px;background:linear-gradient(180deg,#34393e,#22262a);box-shadow:0 2px 0 #000;font-family:var(--mono);text-transform:uppercase;letter-spacing:.03em;font-size:.8rem}
 .nb:active{transform:translateY(2px);box-shadow:none}
 .nb.go{flex:1;background:linear-gradient(180deg,#ffc93d,#d48a00);color:#1b1100;font-weight:700;font-size:1rem}
 .nb.go.next{background:linear-gradient(180deg,#2bd162,#169443);color:#02140a}
@@ -57,7 +57,8 @@ p{font-size:1.08rem;line-height:1.5;margin:.5em 0}
 .idx.open{display:block}
 .idx .in{max-width:560px;margin:0 auto;background:var(--panel);border:1px solid var(--edge);border-radius:14px;max-height:100%;overflow:auto;padding:14px}
 .idx a{display:flex;gap:12px;align-items:center;padding:11px 8px;border-bottom:1px solid #23272b;color:var(--ink);text-decoration:none}
-.idx a .n{font-family:var(--head);font-size:1.4rem;color:var(--amber);width:34px}
+.idx a .n{font-family:var(--head);font-size:1.7rem;color:var(--amber);width:40px;flex:none}
+.idx a .t{font-family:var(--head);font-size:1.35rem;text-transform:uppercase;letter-spacing:.02em;line-height:1.1}
 .idx a.lock{opacity:.35;pointer-events:none}.idx a.lock .n{color:var(--dim)}
 .idx a .s{margin-left:auto;font-family:var(--mono);font-size:.7rem;color:var(--dim)}
 /* widgets */
@@ -117,8 +118,8 @@ input[type=range]{width:100%;accent-color:var(--amber);height:34px}
 .bars64 i.a{background:#174a5a}.bars64 i.b{background:#5a3f0a}.bars64 i.c{background:#5a1a12}.bars64 i.d{background:#2d4a17}
 .train{position:relative;height:90px;border-radius:12px;background:#0d0f10;border:1px solid var(--edge);overflow:hidden;margin:10px 0}
 .train .rail{position:absolute;left:0;right:0;bottom:16px;height:3px;background:#333}
-.train .cars{position:absolute;bottom:20px;left:0;display:flex;gap:6px;animation:roll 6s linear infinite;width:max-content}
-.train .car{width:80px;height:38px;border-radius:6px;font-family:var(--mono);font-size:.62rem;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700}
+.train .cars{position:absolute;bottom:20px;left:0;display:flex;animation:roll 9s linear infinite;width:max-content;will-change:transform}
+.train .car{width:80px;margin-right:6px;flex:none;height:38px;border-radius:6px;font-family:var(--mono);font-size:.62rem;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700}
 @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .train .rider{position:absolute;top:8px;font-size:1.3rem;transition:left .5s}
 .mics{display:flex;justify-content:center;gap:4px;font-size:2rem;min-height:52px;align-items:center;margin:8px 0}
@@ -160,16 +161,59 @@ input.txt{width:100%;padding:12px;border-radius:10px;border:1px solid var(--edge
 .gterm{padding:11px 0;border-bottom:1px solid #23272b}.gterm h4{margin:0;font-family:var(--head);font-weight:400;font-size:1.2rem;letter-spacing:.03em;text-transform:uppercase}
 .gterm h4 em{font-family:var(--mono);font-style:normal;font-size:.72rem;color:var(--dim);text-transform:none;margin-left:6px}.gterm p{margin:4px 0;font-size:.95rem}
 .gterm.hit{background:#1a1508;border-radius:8px;padding-left:8px;padding-right:8px}
+
+.plan .lab{font-family:var(--mono);font-size:.72rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin:10px 0 4px;display:flex;justify-content:space-between}
+.plan .g{display:grid;grid-template-columns:repeat(16,1fr);gap:2px}
+.plan .g i{height:16px;border-radius:2px;background:#1a1d20;font-style:normal;font-size:.6rem;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .3s}
+.plan .g.p i{height:10px;opacity:.55}
+.plan .A{background:#1e6a85!important}.plan .B{background:#9a6b0c!important}.plan .C{background:#8a2a1f!important}.plan .D{background:#3f6e1f!important}
+.plan .g i.now{outline:2px solid #fff;outline-offset:-1px}
+.moment{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px;border-radius:10px;background:#0e1011;border:1px solid var(--edge);min-height:92px}
+.moment .bar{font-family:var(--head);font-size:1.5rem;color:var(--amber);line-height:1;min-width:58px}
+.moment .bar small{display:block;font-family:var(--mono);font-size:.6rem;color:var(--dim)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
+.vs button{padding:12px 8px;border-radius:10px;border:1px solid var(--edge);background:#131517;font-family:var(--head);font-size:1.1rem;text-transform:uppercase}
+.vs button.on{background:var(--ink);color:#111}
+.flowset{position:relative;padding-left:22px}
+.flowset:before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:3px;border-radius:2px;background:#2a2e32;transition:background .4s}
+.flowset.mc:before{background:linear-gradient(var(--led),var(--amber),var(--red))}
+.gblock{position:relative;border-radius:10px;padding:12px;background:#15181a;border:1px solid var(--edge);margin:6px 0}
+.gblock:before{content:"";position:absolute;left:-19px;top:16px;width:11px;height:11px;border-radius:50%;background:#444;border:2px solid #0b0c0d}
+.flowset.mc .gblock:before{background:var(--led)}
+.gblock .gn{font-family:var(--head);font-size:1.25rem;text-transform:uppercase}
+.gblock .gm{font-size:.92rem;margin-top:4px;color:var(--dim)}
+.flowset.mc .gblock .gm{color:var(--ink)}
+.gcut{font-family:var(--mono);font-size:.75rem;padding:4px 0 4px 2px;color:#666}
+.flowset.mc .gcut{color:var(--amber)}
+.verdict{margin-top:10px;padding:12px;border-radius:10px;font-size:1rem;border:1px solid var(--edge);background:#0e1011}
+.flowset.mc+.verdict{border-color:#24563a;background:#0f1a12}
+
+.hx{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.hx button{text-align:left;padding:12px;border-radius:12px;border:1px solid var(--edge);background:#131517;min-height:86px}
+.hx button.on{border-color:var(--amber);background:#1a1508}
+.hx .ty{font-family:var(--mono);font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.hx .ht{font-family:var(--head);font-size:1.2rem;text-transform:uppercase;line-height:1.1;margin-top:4px}
+.viz{border-radius:12px;background:#0d0f10;border:1px solid var(--edge);padding:10px;margin-top:8px}
+.vrow{display:grid;grid-template-columns:44px 1fr;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #1d2023;opacity:.15;transition:opacity .35s}
+.vrow:last-of-type{border-bottom:0}.vrow.on{opacity:1}
+.vrow .vn{font-family:var(--mono);font-size:.65rem;color:var(--dim);text-align:center;line-height:1.2}
+.vrow .vn b{display:block;font-family:var(--head);font-size:1.3rem;color:var(--ink);font-weight:400}
+.mcb{display:inline-block;background:var(--amber);color:#111;border-radius:12px 12px 12px 2px;padding:5px 10px;font-family:var(--head);text-transform:uppercase;font-size:1rem}
+.crowd{margin-top:5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.crowd .ppl{letter-spacing:-3px;font-size:.85rem;line-height:1}
+.crowd .cb{font-family:var(--head);text-transform:uppercase;color:var(--led)}
+.vfoot{display:flex;align-items:center;gap:8px;margin-top:8px;font-family:var(--mono);font-size:.7rem;color:var(--dim)}
+.vfoot .meter{flex:1;margin:0}
+.vnote{font-size:.92rem;margin-top:8px;min-height:2.6em}
 @media(min-width:800px){.slide{padding-top:30px}}
 </style></head>
 <body>
 <div id="app">
   <header class="top"><div class="topr"><span class="brand">BARNA <b>GRIME</b></span><span class="chap" id="chap"></span></div><div class="segs" id="segs"></div></header>
   <main class="stage" id="stage"></main>
-  <nav class="bot"><button class="nb" id="prev" aria-label="Atrás">◂</button><button class="nb" id="index">Índice</button><button class="nb go" id="next"><span id="nextl">Descubrir</span><div class="hintdots" id="dots"></div></button></nav>
+  <nav class="bot"><button class="nb" id="prev" aria-label="Atrás">◂</button><button class="nb" id="index">Índice</button><button class="nb" id="gbtn">Glosario</button><button class="nb go" id="next"><span id="nextl">Descubrir</span><div class="hintdots" id="dots"></div></button></nav>
 </div>
 <div class="idx" id="idx"><div class="in"><div class="row" style="justify-content:space-between"><h2 style="margin:0;font-size:2rem">Índice</h2><button class="btn" id="idxc">✕</button></div><p class="small dim">Los capítulos se desbloquean a medida que avanzas.</p><div id="idxl"></div></div></div>
-<button class="gbtn" id="gbtn" aria-label="Glosario">G</button>
 <div class="drawer" id="drawer"><div class="in"><div class="row" style="justify-content:space-between"><h2 style="margin:0;font-size:2rem">Glosario</h2><button class="btn" id="gclose">✕</button></div>
 <input class="gsearch" id="gq" placeholder="Buscar término…"><div id="glist"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -216,7 +260,7 @@ const S=[
  <div class="f" data-w="steps"></div>`},
 {ch:3,html:`<div class="kicker">03 · El sonido</div><h2>¿Qué hace que un set <span>sea grime</span>?</h2>
  <p class="f">Como <b>performance</b>, la definición se amplía. No hay una lista cerrada de instrumentales permitidos.</p>
- <div class="f" data-w="journey"></div>
+ <p class="f">Los mismos tres instrumentales, dos maneras de vivirlos. Cambia entre las dos:</p><div class="f" data-w="journey"></div>
  <div class="f big">La continuidad la ponen sobre todo los MCs: su presencia y su manera de actuar.</div>`},
 
 /* 4 MCs */
@@ -247,8 +291,8 @@ const S=[
  <p class="f">Muchos tienen <b><span class="term" data-t="Residencia">residencias</span></b> en emisoras, donde organizan sesiones periódicas e invitan a distintos MCs.</p>`},
 {ch:6,html:`<div class="kicker">06 · Los DJs</div><h2>Cada cuánto <span>cambia</span> el beat</h2>
  <p class="f">Muchos sets cambian de instrumental cada 16, 32 o 64 barras, aunque no hay una regla universal.</p>
- <div class="f" data-w="bars"></div>
- <p class="f">Ahora ponte en su lugar:</p><div class="f" data-w="dj"></div>
+ <p class="f">Así se ve un set de 64 barras sobre el papel… y lo que pasa cuando el DJ <b>lee a los MCs</b>:</p>
+ <div class="f" data-w="djset"></div>
  <div class="f big">Un buen DJ no pone música: construye una sesión.</div>`},
 
 /* 7 BASES NO PARAN */
@@ -275,7 +319,8 @@ const S=[
 {ch:9,html:`<div class="kicker">09 · Los hooks</div><h2>Fácil, directo, <span>pegadizo</span></h2>
  <p class="f">Frases o fragmentos vocales que se repiten para conectar con el público y generar <b>participación colectiva</b>.</p>
  <p class="f">Pueden ser de una canción del MC o inventarse en el momento. Una frase, una palabra, una <span class="term" data-t="Chant">consigna</span>… o una combinación de sonidos.</p>
- <p class="f">Crea el tuyo:</p><div class="f" data-w="hook"></div>`},
+ <p class="f">Así funciona en un set. Toca un ejemplo y mira qué pasa cada vez que se repite:</p><div class="f" data-w="hookex"></div>
+ <p class="f">Ahora prueba con el tuyo:</p><div class="f" data-w="hook"></div>`},
 {ch:9,html:`<div class="kicker">09 · Los hooks</div><h2>¿Para qué <span>sirve</span>?</h2>
  <p class="small dim">Descubre sus seis funciones.</p><div data-w="hookfn"></div>
  <div class="f big">A veces, cuatro palabras en el momento justo generan más energía que dieciséis barras complejas.</div>`},
@@ -322,9 +367,9 @@ const S=[
  <div class="f big">No basta con escribir buenas barras: hay que entrenar la capacidad de interpretarlas.</div>`},
 
 /* 14 CARRERA */
-{ch:14,html:`<div class="kicker">14 · Carrera y forma de vida</div><h2>Never Gonna Make <span>a Million</span></h2>
+{ch:14,html:`<div class="kicker">14 · Carrera y forma de vida</div><h2>You'll Never Make a Million <span>from Grime</span></h2><p class="small dim" style="margin-top:-6px">«Nunca te harás millonario con el grime»</p>
  <p class="f">Algunos artistas del grime han llegado al mainstream y han hecho carreras comerciales importantes.</p>
- <p class="f">Pero el título de <b>Lethal Bizzle</b> resume una actitud de la escena: no entrar en el grime pensando que es una vía rápida para hacerse rico.</p>
+ <p class="f">Pero el título de <b>Lethal Bizzle</b> <i>«You'll Never Make a Million from Grime»</i> (nunca te harás millonario con el grime) resume una actitud de la escena: no entrar en el grime pensando que es una vía rápida para hacerse rico.</p>
  <p class="f">Se ha vivido como expresión impulsada por la <b>pasión</b>, la <b>comunidad</b> y la necesidad de tener un <b>espacio propio</b>.</p>
  <p class="f">Se puede construir una carrera y ganar dinero, pero su valor cultural <b class="hl">no depende</b> de su potencial económico.</p>`},
 {ch:14,html:`<div class="kicker">14 · Carrera y forma de vida</div><h2>¿Qué te da <span>valor</span> en un set?</h2>
@@ -373,10 +418,16 @@ W.steps=el=>{
     $('[data-t]',el).textContent=p==='recto'?'Todo cae donde lo esperas: el bombo marca cada tiempo.':'El bombo esquiva los tiempos, la caja cae una vez por compás y quedan huecos: ahí respira la voz.';
     $$('[data-p]',el).forEach(b=>b.classList.toggle('on',b.dataset.p===p)); };
   $$('[data-p]',el).forEach(b=>b.onclick=()=>draw(b.dataset.p)); draw('grime'); };
-W.journey=el=>{ el.innerHTML=`<div class="journey"><div style="border-color:#174a5a">Deep dubstep</div><div style="border-color:#5a3f0a">2-step</div><div style="border-color:#5a1a12">Funk brasileño</div></div>
-  <div class="mcline" data-l><span style="background:#0b0c0d;color:var(--led);padding:2px 8px;border-radius:4px">MCs ACTUANDO</span></div><div class="row" style="justify-content:space-between;margin-top:10px"><span class="small">¿Sigue sintiéndose grime?</span><button class="btn" data-t>Quitar MCs</button></div><div class="meter"><b data-m style="width:92%"></b></div><p class="small dim" data-x>Tres géneros distintos, una misma sesión: sí.</p>`;
-  let on=true; $('[data-t]',el).onclick=e=>{ on=!on; $('[data-l]',el).classList.toggle('off',!on); $('[data-m]',el).style.width=on?'92%':'22%'; e.target.textContent=on?'Quitar MCs':'Devolver MCs';
-    $('[data-x]',el).textContent=on?'Tres géneros distintos, una misma sesión: sí.':'Sin MCs, son tres temas de géneros diferentes. La identidad se diluye.'; }; };
+W.journey=el=>{
+  const G=[['Deep dubstep','Un MC se sube al beat con un hook corto: “¿Quién está en el aire?”'],['2-step','Otro MC entra con sus barras. El primero le apoya con ad-libs.'],['Funk brasileño','Vuelve el hook. La sala ya se lo sabe y lo grita.']];
+  const C=['El DJ mezcla sin parar… pero no pasa nada encima.','El hook sigue sonando por encima del cambio.'];
+  const C2=['Otro cambio. Otro tema.','Los MCs pasan de un género a otro sin soltar el micro.'];
+  el.innerHTML=`<div class="vs"><button data-m="0" class="on">Sin MCs</button><button data-m="1">Con MCs</button></div><div class="flowset" data-f></div><div class="verdict" data-v></div>`;
+  const draw=mc=>{ const f=$('[data-f]',el); f.classList.toggle('mc',mc);
+    f.innerHTML=G.map((g,i)=>`<div class="gblock"><div class="gn">${g[0]}</div><div class="gm">${mc?g[1]:'Suena el tema.'}</div></div>${i<2?`<div class="gcut">${mc?'↓ '+(i?C2:C)[1]:'— '+(i?C2:C)[0]}</div>`:''}`).join('');
+    $('[data-v]',el).innerHTML=mc?'<b>Esto es un set de grime.</b> Tres géneros distintos, una sola sesión: lo que la une es lo que hacen los MCs.':'<b>Esto es una playlist.</b> Tres temas de géneros distintos, uno detrás de otro. Nada los conecta.';
+    $$('[data-m]',el).forEach(b=>b.classList.toggle('on',+b.dataset.m===+mc)); };
+  $$('[data-m]',el).forEach(b=>b.onclick=()=>draw(b.dataset.m==='1')); draw(false); };
 W.mcpick=el=>{ const O=[['16 barras técnicamente perfectas… que nadie en la sala siente','no','Impecable sobre el papel, pero si no conecta, no cumple. La técnica sola no basta.'],
    ['Dos palabras que toda la sala acaba gritando contigo','ok','Conecta, genera reacción. Cumple.'],
    ['Cuatro sonidos guturales extraños que hacen saltar a todo el mundo y acaban en pullup','ok','Exacto: si conecta y consigue un pullup, ha cumplido su cometido.']];
@@ -402,17 +453,25 @@ W.flips6=el=>flips(el,[["“Todo DJ de grime es productor.”",0,'No siempre. Al
 W.flips8=el=>flips(el,[["“Los MCs de grime inventan sus letras en el momento.”",0,'La mayoría tiene barras escritas y preparadas, que adapta a los instrumentales que van sonando.'],
   ["“Usar letras escritas está mal visto.”",0,'Al contrario de ciertos prejuicios del freestyle, en grime es una práctica completamente habitual.'],
   ["“La improvisación existe en el grime.”",1,'Sí, pero no consiste necesariamente en inventar una letra entera.']]);
-W.bars=el=>{ el.innerHTML=`<div class="seg2"><button data-n="16" class="on">16</button><button data-n="32">32</button><button data-n="64">64</button></div><div class="bars64" data-g></div><p class="small dim" data-t></p>`;
-  const draw=n=>{ const cl=['a','b','c','d']; $('[data-g]',el).innerHTML=Array.from({length:64},(_,i)=>`<i class="${cl[Math.floor(i/n)%4]}"></i>`).join('');
-    $('[data-t]',el).textContent=`64 barras de set: ${64/n} instrumental${64/n>1?'es':''} distinto${64/n>1?'s':''} si el DJ cambia cada ${n}.`; $$('[data-n]',el).forEach(b=>b.classList.toggle('on',+b.dataset.n===n)); };
-  $$('[data-n]',el).forEach(b=>b.onclick=()=>draw(+b.dataset.n)); draw(16); };
-W.dj=el=>{ const Q=[['Un MC acaba de soltar unas barras y la sala ha explotado.',{reload:['ok','Reload. Es el momento de repetirlo.'],mantener:['mid','Mantenerlo es válido, pero se escapa un pullup.'],cambiar:['no','Cambiar ahora corta la reacción.']}],
-   ['Tres MCs alrededor del micro, todos quieren este beat.',{mantener:['ok','Mantenerlo: deja que lo aprovechen.'],cambiar:['no','Cambiar ahora les quita el beat a todos.'],reload:['mid','Puede funcionar si alguien revienta, pero aún no ha pasado.']}],
-   ['Un MC termina su turno y la energía empieza a bajar.',{cambiar:['ok','Cambiar el instrumental refresca la sesión para el siguiente.'],mantener:['mid','Puede servir si otro MC entra ya.'],reload:['no','Repetir un momento flojo no tiene sentido.']}]];
-  let i=0; const show=()=>{ const q=Q[i]; el.innerHTML=`<div class="card"><span class="tape">Situación ${i+1}/3</span><p>${q[0]}</p><div class="row">${['cambiar','mantener','reload'].map(a=>`<button class="btn" data-a="${a}">${a}</button>`).join('')}</div><div class="reveal" data-r style="margin-top:10px">¿Qué haces?</div></div>`;
-    $$('[data-a]',el).forEach(b=>b.onclick=()=>{ const r=q[1][b.dataset.a]; b.style.background=r[0]==='ok'?'#1f6b38':r[0]==='mid'?'#6b5a1f':'#6b1f1f'; $('[data-r]',el).innerHTML=r[1]+(i<2?' <button class="btn" data-nx style="margin-left:6px">Siguiente</button>':'');
-      const nx=$('[data-nx]',el); if(nx) nx.onclick=()=>{ i++; show(); }; }); }; show(); };
-W.train=el=>{ el.innerHTML=`<div class="train"><div class="rail"></div><div class="cars">${Array.from({length:12},(_,i)=>`<div class="car" style="background:${['#33d6ff','#ffb000','#ff3b3b','#3dff7a'][i%4]}">BEAT ${i%4+1}</div>`).join('')}</div><div class="rider" data-r style="left:-40px">🎤</div></div>
+W.djset=el=>{
+  const M=[[1,'Entra el beat A. Un MC empieza sus barras.',[[0,16,'A']]],
+    [16,'Según el plan, toca cambiar… pero el MC está reventando. El DJ <b>mantiene</b> el beat.',[[16,24,'A']]],
+    [24,'La sala explota. <b>Pullup</b>: el DJ vuelve al principio del mismo beat.',[[24,40,'A']],24],
+    [40,'Termina el MC y la energía baja. El DJ <b>cambia</b> al beat B para el siguiente.',[[40,48,'B']]],
+    [48,'Tres MCs alrededor del micro, todos quieren el B. El DJ lo deja correr hasta el final.',[[48,64,'B']]]];
+  el.innerHTML=`<div class="plan card"><div class="lab"><span>El plan · cambio cada 16</span></div><div class="g p">${Array.from({length:64},(_,i)=>`<i class="${'ABCD'[Math.floor(i/16)]}"></i>`).join('')}</div>
+    <div class="lab"><span>Lo que pasó</span><span data-c></span></div><div class="g" data-g>${'<i></i>'.repeat(64)}</div>
+    <div class="moment"><div class="bar" data-b>—<small>barra</small></div><div data-t>Pulsa “Siguiente momento”.</div></div>
+    <div class="row" style="margin-top:10px"><button class="btn a" data-n>Siguiente momento ▸</button><button class="btn" data-r>↺</button></div></div>`;
+  const cells=$$('[data-g] i',el); let k=0;
+  const reset=()=>{ k=0; cells.forEach(c=>{c.className='';c.textContent='';}); $('[data-b]',el).innerHTML='—<small>barra</small>'; $('[data-t]',el).textContent='Pulsa “Siguiente momento”.'; $('[data-c]',el).textContent=''; $('[data-n]',el).disabled=false; };
+  $('[data-n]',el).onclick=()=>{ if(k>=M.length) return; const m=M[k]; cells.forEach(c=>c.classList.remove('now'));
+    m[2].forEach(([a,b,c])=>{ for(let i=a;i<b;i++) cells[i].className=c; }); if(m[3]!=null) cells[m[3]].textContent='↺';
+    cells[m[0]-1>=0?m[0]-1:0].classList.add('now');
+    $('[data-b]',el).innerHTML=`${m[0]}<small>barra</small>`; $('[data-t]',el).innerHTML=m[1]; $('[data-c]',el).textContent=`${k+1}/${M.length}`; k++;
+    if(k===M.length){ $('[data-n]',el).disabled=true; setTimeout(()=>{ $('[data-t]',el).innerHTML+=' <br><span class="hl">Plan: 4 beats. Realidad: 2 beats y un pullup.</span>'; },500); } };
+  $('[data-r]',el).onclick=reset; };
+W.train=el=>{ el.innerHTML=`<div class="train"><div class="rail"></div><div class="cars">${Array.from({length:24},(_,i)=>`<div class="car" style="background:${['#33d6ff','#ffb000','#ff3b3b','#3dff7a'][i%4]}">BEAT ${i%4+1}</div>`).join('')}</div><div class="rider" data-r style="left:-40px">🎤</div></div>
   <div class="row"><button class="btn a" data-j>Subirse al tren</button><span class="small" data-t>El beat ya está sonando.</span></div>`;
   let n=0; $('[data-j]',el).onclick=()=>{ n++; const r=$('[data-r]',el); r.style.left=(20+Math.random()*55)+'%';
     $('[data-t]',el).textContent=n===1?'¡Dentro! No esperaste a que parara.':n===2?'El DJ ha cambiado de beat, pero sigues encima.':'Así funciona: el tren nunca se detiene.'; }; };
@@ -423,15 +482,32 @@ W.mics=el=>{ el.innerHTML=`<div class="mics" data-m></div><div class="meter"><b 
 W.impro=el=>{ const I=['Improvisar un flow','Cambiar palabras','Modificar la estructura de una intervención','Crear un hook sobre la marcha','Adaptar una barra a una situación concreta'];
   el.innerHTML=`<div class="chips">${I.map((x,i)=>`<button class="chip" data-i="${i}">?</button>`).join('')}</div><div class="count" data-c>0/5</div>`;
   let n=0; $$('.chip',el).forEach(b=>b.onclick=()=>{ if(b.classList.contains('ok')) return; b.textContent=I[b.dataset.i]; b.classList.add('ok'); n++; $('[data-c]',el).textContent=n+'/5'; }); };
+/* visualización: el mismo hook repetido 4 veces y cómo se suma la sala */
+function hookViz(box, mc, resp, note){
+  const P=[0,3,8,16], SZ=['.8rem','.95rem','1.2rem','1.5rem'], ST=['Solo el MC','Algunos lo pillan','Media sala','Toda la sala'];
+  box.innerHTML=`<div class="viz">${P.map((n,i)=>`<div class="vrow"><div class="vn"><b>${i+1}ª</b>vez</div><div><span class="mcb">${mc}</span>
+    <div class="crowd">${n?`<span class="ppl">${'👤'.repeat(n)}</span><span class="cb" style="font-size:${SZ[i]}">${resp}</span>`:'<span class="dim small">(la sala escucha)</span>'}</div></div></div>`).join('')}
+    <div class="vfoot">ENERGÍA<div class="meter"><b data-e style="width:0"></b></div><span data-s></span></div></div><div class="vnote" data-n></div>`;
+  const rows=$$('.vrow',box); clearTimeout(box._t); let i=0;
+  const step=()=>{ rows[i].classList.add('on'); $('[data-e]',box).style.width=(15+i*28)+'%'; $('[data-s]',box).textContent=ST[i]; i++;
+    if(i<4) box._t=setTimeout(step,850); else { $('[data-n]',box).innerHTML=note; } };
+  step();
+}
+W.hookex=el=>{ const E=[
+   ['Una palabra','¡Barna!','¡BARNA!','Una sola palabra. No hay nada que aprender: a la segunda vez ya la grita todo el mundo.'],
+   ['Una frase','Fuego en la sala','¡FUEGO EN LA SALA!','Corta y con ritmo. El público la memoriza y empieza a decirla con el MC.'],
+   ['Una consigna','¿Quién está en el aire?','¡NOSOTROS!','Pregunta-respuesta: el MC lanza, la sala contesta. El público pasa a formar parte del hook.'],
+   ['Sonidos','Brrr… ¡oi! ¡oi!','¡OI! ¡OI!','Ni siquiera hacen falta palabras: un sonido repetido en el momento justo también es un hook.']];
+  el.innerHTML=`<div class="hx">${E.map((e,i)=>`<button data-i="${i}"><div class="ty">${e[0]}</div><div class="ht">${e[1]}</div></button>`).join('')}</div><div data-v><div class="reveal">Elige uno de los cuatro.</div></div>`;
+  $$('.hx button',el).forEach(b=>b.onclick=()=>{ const e=E[b.dataset.i]; $$('.hx button',el).forEach(x=>x.classList.toggle('on',x===b)); hookViz($('[data-v]',el),e[1],e[2],`<b>${e[0]}.</b> ${e[3]}`); }); };
 W.hook=el=>{ const words=['¿Quién','está','en el aire?','¡Oi!','Barna','fuego','arriba','sala','¡Brap!','nosotros','dale','otra vez'];
   el.innerHTML=`<div class="card"><div class="chips">${words.map(w=>`<button class="chip">${w}</button>`).join('')}</div>
-   <input class="txt" data-i placeholder="…o escribe tu propio hook" maxlength="40"><div class="row" style="margin-top:8px"><button class="btn a" data-go>¡Lánzalo!</button><button class="btn" data-cl>Borrar</button></div>
-   <div class="echo" data-e><span class="dim small">Elige 1-4 palabras y lánzalo.</span></div></div>`;
-  const inp=$('[data-i]',el); $$('.chip',el).forEach(c=>c.onclick=()=>{ const w=inp.value.trim().split(/\s+/).filter(Boolean); if(w.length>=6) return toast('Mejor corto'); inp.value=(inp.value.trim()+' '+c.textContent).trim(); });
-  $('[data-cl]',el).onclick=()=>{ inp.value=''; };
-  let tm=[]; $('[data-go]',el).onclick=()=>{ const h=inp.value.trim(); const e=$('[data-e]',el); tm.forEach(clearTimeout); tm=[]; if(!h){ e.innerHTML='<span class="dim small">Primero escribe o elige algo.</span>'; return; }
-    const words=h.split(/\s+/).length; e.innerHTML=''; for(let i=0;i<4;i++){ tm.push(setTimeout(()=>{ e.insertAdjacentHTML('beforeend',`<div class="l mc">${h}</div>`); if(i>=1) tm.push(setTimeout(()=>e.insertAdjacentHTML('beforeend',`<div class="l cr">${'— '+h.toUpperCase()+' —'}</div>`),350)); },i*800)); }
-    tm.push(setTimeout(()=>e.insertAdjacentHTML('beforeend',`<div class="small" style="margin-top:6px;color:var(--dim)">${words<=5?'Corto y repetible: a la segunda vez, la sala ya lo grita contigo.':'Es un poco largo: cuanto más corto, más fácil de corear.'}</div>`),3500)); }; };
+   <input class="txt" data-i placeholder="…o escribe tu propio hook" maxlength="40"><div class="row" style="margin-top:8px"><button class="btn a" data-go>¡Lánzalo!</button><button class="btn" data-cl>Borrar</button></div><div data-v></div></div>`;
+  const inp=$('[data-i]',el); $$('.chip',el).forEach(c=>c.onclick=()=>{ if(inp.value.trim().split(/\s+/).filter(Boolean).length>=6) return toast('Mejor corto'); inp.value=(inp.value.trim()+' '+c.textContent).trim(); });
+  $('[data-cl]',el).onclick=()=>{ inp.value=''; $('[data-v]',el).innerHTML=''; };
+  $('[data-go]',el).onclick=()=>{ const h=inp.value.trim(); if(!h) return toast('Escribe o elige algo'); const n=h.split(/\s+/).length;
+    if(n<=5) hookViz($('[data-v]',el),h,h.toUpperCase(),'<b>Funciona.</b> Es corto y repetible: la sala se lo aprende enseguida.');
+    else { const v=$('[data-v]',el); hookViz(v,h,'¿…?','<b>Demasiado largo.</b> La sala no consigue seguirte. Prueba con 1-4 palabras.'); } }; };
 W.hookfn=el=>{ const F=[['Llenar espacios','entre las barras'],['Mantener la energía','de la sesión'],['Generar expectación','antes de algo grande'],['Preparar la entrada','de una intervención más desarrollada'],['Hacer participar','al público, que lo reconoce y lo repite'],['Recuperar el aire','pensar la siguiente intervención y preparar el próximo drop']];
   el.innerHTML=`<div class="chips">${F.map((f,i)=>`<button class="chip" data-i="${i}">${i+1}</button>`).join('')}</div><div class="reveal" data-r>Toca un número.</div>`;
   $$('.chip',el).forEach(b=>b.onclick=()=>{ const f=F[b.dataset.i]; b.classList.add('ok'); b.textContent=f[0]; $('[data-r]',el).innerHTML=`<b>${f[0]}</b> ${f[1]}.`; }); };
@@ -513,7 +589,7 @@ function render(){
   const fs=frags(cur), left=fs.filter(f=>!f.classList.contains('v')).length, nx=$('#next');
   $('#dots').innerHTML=fs.length?fs.map(f=>`<i class="${f.classList.contains('v')?'v':''}"></i>`).join(''):'';
   nx.classList.toggle('next',!left);
-  $('#nextl').textContent= left? (cur===0&&fs.filter(f=>f.classList.contains('v')).length===0?'Empezar':'Descubrir') : cur===S.length-1?'Fin':(S[cur+1].ch!==ch?'Capítulo '+S[cur+1].ch+' ▸':'Siguiente ▸');
+  $('#nextl').textContent= left? (cur===0&&fs.filter(f=>f.classList.contains('v')).length===0?'Empezar':'Descubrir') : cur===S.length-1?'Fin':(S[cur+1].ch!==ch?'Cap. '+S[cur+1].ch+' ▸':'Siguiente ▸');
   nx.disabled = !left && cur===S.length-1; $('#prev').disabled=cur===0;
   if(cur>max){ max=cur; save(); }
 }
@@ -524,7 +600,7 @@ function prev(){ if(cur>0) go(cur-1); }
 function go(i,revealAll){ cur=i; if(revealAll||i<max) frags(i).forEach(f=>f.classList.add('v')); S[i].el.scrollTop=0; render(); }
 window.go=go;
 function openIdx(){ const reachedCh=S[max].ch; $('#idxl').innerHTML=CH.map((c,i)=>{ if(i===0) return ''; const first=S.findIndex(s=>s.ch===i); const lock=i>reachedCh;
-  return `<a href="#" data-s="${first}" class="${lock?'lock':''}"><span class="n">${String(i).padStart(2,'0')}</span><span>${c}</span><span class="s">${lock?'🔒':i<reachedCh?'✓':'en curso'}</span></a>`; }).join('');
+  return `<a href="#" data-s="${first}" class="${lock?'lock':''}"><span class="n">${String(i).padStart(2,'0')}</span><span class="t">${c}</span><span class="s">${lock?'🔒':i<reachedCh?'✓':'en curso'}</span></a>`; }).join('');
   $$('#idxl a').forEach(a=>a.onclick=e=>{ e.preventDefault(); $('#idx').classList.remove('open'); go(+a.dataset.s); }); $('#idx').classList.add('open'); }
 window.openIdx=openIdx;
 $('#next').onclick=next; $('#prev').onclick=prev; $('#index').onclick=openIdx;
