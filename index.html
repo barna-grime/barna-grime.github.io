@@ -243,12 +243,16 @@ aud.addEventListener('loadedmetadata', () => {
   ticks(); seekAll(0);
 });
 aud.addEventListener('ended', pause);
+aud.addEventListener('loadeddata', () => { if (!corsOk) { $('stageMsg').dataset.err = '1'; $('stageMsg').textContent = 'El set se ve, pero el servidor de vídeo no tiene CORS activado para esta web: no se podrán crear clips. Revisa la regla CORS del bucket.'; } });
 aud.addEventListener('canplay', () => { if ($('stageMsg').dataset.err !== '1') $('stageMsg').textContent = ''; });
 aud.addEventListener('waiting', () => { if (!exporting) $('stageMsg').textContent = 'Cargando…'; });
 aud.addEventListener('playing', () => { if ($('stageMsg').dataset.err !== '1') $('stageMsg').textContent = ''; });
+let corsOk = true;
 aud.addEventListener('error', () => {
+  // Si falla con CORS, se reintenta sin CORS: así al menos se puede ver el set
+  if (aud.hasAttribute('crossorigin')) { corsOk = false; aud.removeAttribute('crossorigin'); aud.src = SET.preview; aud.load(); return; }
   $('stageMsg').dataset.err = '1';
-  $('stageMsg').textContent = 'No se pudo cargar el vídeo del set. Revisa la dirección en SET.preview y que el bucket tenga CORS activado para esta web.';
+  $('stageMsg').textContent = 'No se pudo cargar el vídeo del set: la dirección no responde. Revisa que SET.preview coincide con la Public URL del archivo en R2.';
   $('exportBtn').disabled = true;
 });
 window.addEventListener('resize', () => dur && ticks());
