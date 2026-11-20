@@ -29,7 +29,7 @@ header .t{font:900 22px/1 'Big Shoulders Display',sans-serif;letter-spacing:.02e
 header .s{color:var(--mute);font-size:14px}
 main{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,3vw,40px);padding:8px max(4vw,16px) 40px;max-width:1240px;margin:0 auto;align-items:start}
 .stage{position:relative;height:min(82vh,860px);aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 30px 80px -20px #2236ff66,0 0 0 1px var(--line)}
-.stage canvas{width:100%;height:100%;display:block}
+.stage video{width:100%;height:100%;display:block;object-fit:cover;background:#000}
 .stage .big{position:absolute;inset:0;display:grid;place-items:center;background:#0006;border:0;cursor:pointer}
 .stage .big svg{width:84px;height:84px}
 .stage .msg{position:absolute;left:16px;right:16px;bottom:16px;background:#05061ae6;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--mute)}
@@ -78,7 +78,7 @@ h1{font:900 clamp(34px,4.6vw,52px)/1.02 'Big Shoulders Display',sans-serif;margi
 </header>
 <main>
   <div class="stage" id="stage">
-    <canvas id="cv" width="540" height="960" aria-label="Vista previa del clip"></canvas>
+    <video id="aud" playsinline preload="auto" crossorigin="anonymous" aria-label="Set completo"></video>
     <span class="rec" id="recBadge">● Generando clip</span>
     <div class="msg" id="stageMsg">Cargando el set…</div>
     <button class="big" id="bigPlay" aria-label="Reproducir"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#ff6a1f"/><path d="M34 26l26 16-26 16z" fill="#140600"/></svg></button>
@@ -121,13 +121,13 @@ h1{font:900 clamp(34px,4.6vw,52px)/1.02 'Big Shoulders Display',sans-serif;margi
     </div>
     <div class="card">
       <div class="row" style="justify-content:space-between">
-        <div><b>Exportar clip</b><div class="small">Vertical 1080×1920, tal cual lo ves en el visor</div></div>
+        <div><b>Exportar clip</b><div class="small">Vertical 1080×1920 en MP4, con la calidad original del set</div></div>
         <button class="btn pri" id="exportBtn">Crear clip</button>
       </div>
       <div id="prog" style="display:none">
         <div class="bar"><i id="barFill"></i></div>
         <div class="row" style="justify-content:space-between"><span class="small" id="progTxt">Preparando…</span><button class="btn sm" id="cancelBtn">Cancelar</button></div>
-        <div class="small">Se graba en tiempo real: deja esta pestaña abierta y visible hasta que termine.</div>
+        <div class="small" id="progNote">Se graba en tiempo real: deja esta pestaña abierta y visible hasta que termine.</div>
       </div>
       <div class="out" id="out">
         <video id="outVid" controls playsinline></video>
@@ -144,8 +144,9 @@ h1{font:900 clamp(34px,4.6vw,52px)/1.02 'Big Shoulders Display',sans-serif;margi
 </main>
 
 <div class="hide">
-  <video id="aud" playsinline preload="auto" crossorigin="anonymous"></video>
+  <canvas id="cv" width="540" height="960"></canvas>
 </div>
+<script src="mp4cut.js"></script>
 
 <script>
 {
@@ -176,7 +177,7 @@ const fmt = (s, dec) => { s = Math.max(0, s); const m = Math.floor(s / 60), r = 
 const parse = str => { const p = String(str).trim().replace(',', '.').split(':').map(Number); if (p.some(isNaN)) return null; return p.reduce((a, v) => a * 60 + v, 0); };
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
-/* ---------- dibujo: el mismo para la vista previa y para el clip ---------- */
+/* ---------- dibujo en lienzo: solo para el plan B (grabación en tiempo real) ---------- */
 function draw() {
   const v = aud;
   if (!v.videoWidth || v.readyState < 2) { ctx2.fillStyle = '#05061a'; ctx2.fillRect(0, 0, cv.width, cv.height); return; }
@@ -185,7 +186,8 @@ function draw() {
 }
 
 function loop() {
-  draw(); ui();
+  if (rec) draw();
+  ui();
   if (stopAt !== null && aud.currentTime >= stopAt) finishSegment();
   requestAnimationFrame(loop);
 }
@@ -203,7 +205,7 @@ async function seekAll(t) {
   await new Promise(r => { const done = () => { aud.removeEventListener('seeked', done); r(); }; aud.addEventListener('seeked', done); aud.currentTime = t; setTimeout(done, 3000); });
   draw();
 }
-async function play() { ensureAudioGraph(); try { await aud.play(); } catch (e) { return; } $('bigPlay').style.display = 'none'; }
+async function play() { if (actx && actx.state === 'suspended') actx.resume(); try { await aud.play(); } catch (e) { return; } $('bigPlay').style.display = 'none'; }
 function pause() { aud.pause(); stopAt = null; }
 function toggle() { if (exporting) return; aud.paused ? play() : pause(); }
 
@@ -249,7 +251,7 @@ aud.addEventListener('error', () => {
 });
 window.addEventListener('resize', () => dur && ticks());
 
-$('playBtn').onclick = toggle; $('bigPlay').onclick = toggle; cv.onclick = toggle;
+$('playBtn').onclick = toggle; $('bigPlay').onclick = toggle; aud.onclick = toggle;
 document.querySelectorAll('[data-skip]').forEach(b => b.onclick = async () => { if (exporting) return; const p = !aud.paused; await seekAll(clamp(aud.currentTime + +b.dataset.skip, 0, dur)); if (p && aud.paused) play(); });
 document.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { const d = +b.dataset.d; b.dataset.n === 'in' ? setRange(tIn + d, tOut, 'in') : setRange(tIn, tOut + d, 'out'); });
 $('markIn').onclick = () => setRange(aud.currentTime, Math.max(tOut, aud.currentTime + SET.minClip), 'in');
@@ -287,7 +289,34 @@ document.addEventListener('keydown', e => {
   if (e.key === 'o' || e.key === 'O') $('markOut').click();
 });
 
-/* ---------- exportar: se graba el lienzo + el audio en tiempo real ---------- */
+/* ---------- exportar ----------
+   1) Corte directo del MP4 sin recodificar (rápido, calidad original, sincronía exacta).
+   2) Plan B si el corte falla: grabar el lienzo + el audio en tiempo real. */
+async function exportClip() {
+  pause(); cancelled = false; $('out').style.display = 'none';
+  if (window.MP4Cut && window.fetch) {
+    setExporting(true); $('progNote').style.display = 'none'; $('cancelBtn').style.display = 'none'; $('recBadge').style.display = 'none';
+    try {
+      const r = await MP4Cut.cut(new URL(SET.video, location.href).href, tIn, tOut, (p, txt) => { $('barFill').style.width = (p * 100) + '%'; $('progTxt').textContent = p > 0 && p < 1 ? `${txt} ${Math.round(p * 100)} %` : txt; });
+      setExporting(false);
+      return showResult(r.blob, 'mp4', r.start, r.end);
+    } catch (e) { console.warn('Corte directo no disponible, se graba en tiempo real:', e); setExporting(false); }
+  }
+  return recordClip();
+}
+function showResult(blob, ext, a, b) {
+  outBlob = blob; outExt = ext;
+  const name = `${SET.file}_-_CLIP_${fmt(Math.round(a)).replace(/:/g, "-")}_a_${fmt(Math.round(b)).replace(/:/g, "-")}.${ext}`;
+  $('outVid').src = URL.createObjectURL(blob);
+  $('outName').textContent = name; $('outName').dataset.n = name;
+  $('outInfo').textContent = `${(b - a).toFixed(1).replace('.', ',')} s · ${(blob.size / 1048576).toFixed(1).replace('.', ',')} MB · ${ext.toUpperCase()}`;
+  const msgs = [];
+  if (a < tIn - 0.05) msgs.push(`Empieza en ${fmt(a, 1).replace('.', ',')}, en el corte limpio más cercano.`);
+  if (ext === 'webm') msgs.push('Tu navegador solo graba en WebM. Para MP4, usa Chrome actualizado o Safari.');
+  $('saveMsg').textContent = msgs.join(' ');
+  $('out').style.display = 'flex';
+}
+/* plan B: grabación en tiempo real */
 function pickMime() {
   // H.264 primero (lo que piden Instagram/TikTok); AAC si el navegador lo tiene, si no Opus
   const list = ['video/mp4;codecs=avc1.640028,mp4a.40.2', 'video/mp4;codecs=avc1.4d0028,mp4a.40.2', 'video/mp4;codecs=avc1,mp4a.40.2', 'video/mp4;codecs=avc1,opus', 'video/webm;codecs=h264,opus', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
@@ -299,13 +328,13 @@ function setExporting(on) {
   $('prog').style.display = on ? 'block' : 'none';
   $('recBadge').style.display = on ? 'block' : 'none';
 }
-async function exportClip() {
+async function recordClip() {
   if (!window.MediaRecorder || !cv.captureStream) { $('saveMsg').textContent = ''; $('progTxt').textContent = 'Este navegador no puede crear clips. Prueba con Chrome o Safari actualizados.'; $('prog').style.display = 'block'; return; }
   ensureAudioGraph();
   if (gain) gain.gain.setValueAtTime(0, actx.currentTime);
   aud.play().then(() => { if (!exporting || aud.currentTime < tIn - 0.5) aud.pause(); }).catch(() => {}); // desbloquea el audio en iOS con el propio clic
-  pause(); cancelled = false; $('out').style.display = 'none';
-  setExporting(true); $('progTxt').textContent = 'Preparando…'; $('barFill').style.width = '0';
+  pause(); cancelled = false;
+  setExporting(true); $('progNote').style.display = ''; $('cancelBtn').style.display = ''; $('progTxt').textContent = 'Preparando…'; $('barFill').style.width = '0';
   cv.width = 1080; cv.height = 1920;
   await seekAll(tIn);
   const mime = pickMime(); outExt = mime.includes('mp4') ? 'mp4' : 'webm';
@@ -329,13 +358,7 @@ async function exportClip() {
   cv.width = 540; cv.height = 960; draw();
   setExporting(false); rec = null;
   if (cancelled) return;
-  outBlob = new Blob(chunks, { type: mime || 'video/webm' });
-  const name = `${SET.file}_-_CLIP_${fmt(tIn).replace(/:/g, '-')}_a_${fmt(tOut).replace(/:/g, '-')}.${outExt}`;
-  $('outVid').src = URL.createObjectURL(outBlob);
-  $('outName').textContent = name; $('outName').dataset.n = name;
-  $('outInfo').textContent = `${len.toFixed(1).replace('.', ',')} s · ${(outBlob.size / 1048576).toFixed(1).replace('.', ',')} MB · ${outExt.toUpperCase()}`;
-  $('saveMsg').textContent = outExt === 'webm' ? 'Tu navegador solo graba en WebM. Para MP4, usa Chrome actualizado o Safari.' : '';
-  $('out').style.display = 'flex';
+  showResult(new Blob(chunks, { type: mime || 'video/webm' }), outExt, tIn, tOut);
 }
 function finishSegment() {
   stopAt = null; pause();
