@@ -1,614 +1,371 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Barna Grime</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barna Grime · Clips del set</title>
+<meta name="description" content="Mira el set completo de Barna Grime y llévate tu momento como clip vertical para stories, reels y TikTok.">
+<meta property="og:title" content="Barna Grime · Corta tu momento del set">
+<meta property="og:description" content="Elige un tramo del set y descárgalo como clip vertical.">
+<meta name="theme-color" content="#05061a">
+<link rel="icon" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0c0d;--panel:#16181a;--edge:#2a2e32;--ink:#ece8dd;--dim:#8d9296;--led:#3dff7a;--amber:#ffb000;--red:#ff3b3b;--cyan:#33d6ff;--tape:#efe6c8;
---head:'Anton',Impact,sans-serif;--mono:'Share Tech Mono',ui-monospace,monospace;--marker:'Permanent Marker',cursive;--body:'Space Grotesk',system-ui,sans-serif;
---st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--body);overflow:hidden}
-body{background-image:radial-gradient(circle at 15% -10%,#1d2420 0,transparent 55%),radial-gradient(circle at 110% 110%,#24130f 0,transparent 50%)}
-button{font:inherit;color:inherit;cursor:pointer}
-#app{position:fixed;inset:0;display:flex;flex-direction:column;padding-top:var(--st)}
-/* top */
-.top{padding:10px 16px 8px;display:flex;flex-direction:column;gap:8px}
-.topr{display:flex;align-items:center;gap:10px}
-.brand{font-family:var(--head);letter-spacing:.05em;font-size:1rem}.brand b{color:var(--red);font-weight:400}
-.chap{margin-left:auto;font-family:var(--mono);font-size:.75rem;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%}
-.segs{display:grid;grid-template-columns:repeat(14,1fr);gap:3px}
-.segs i{height:4px;border-radius:2px;background:#24282c;overflow:hidden;position:relative}
-.segs i b{position:absolute;inset:0;width:0;background:var(--led);transition:width .4s}
-.segs i.cur b{background:var(--amber)}
-/* stage */
-.stage{flex:1;position:relative;overflow:hidden}
-.slide{position:absolute;inset:0;overflow-y:auto;padding:14px 20px 30px;opacity:0;transform:translateX(30px);transition:opacity .35s,transform .35s;pointer-events:none;-webkit-overflow-scrolling:touch}
-.slide.on{opacity:1;transform:none;pointer-events:auto}
-.slide.out{transform:translateX(-30px)}
-.inner{max-width:640px;margin:0 auto}
-.kicker{font-family:var(--mono);font-size:.75rem;color:var(--dim);letter-spacing:.15em;text-transform:uppercase}
-h1,h2{font-family:var(--head);font-weight:400;text-transform:uppercase;line-height:1.02;margin:.15em 0 .45em;letter-spacing:.01em}
-h1{font-size:clamp(3rem,15vw,6rem)} h2{font-size:clamp(2rem,9vw,3.4rem)}
-h1 span,h2 span{color:var(--red)}
-p{font-size:1.08rem;line-height:1.5;margin:.5em 0}
-.f{opacity:0;transform:translateY(14px);transition:opacity .45s,transform .45s;visibility:hidden}
-.f.v{opacity:1;transform:none;visibility:visible}
-.big{font-family:var(--head);text-transform:uppercase;font-size:clamp(1.6rem,7vw,2.5rem);line-height:1.08;margin:18px 0;padding:14px 16px;border-left:4px solid var(--red);background:#140b0a}
-.tape{display:inline-block;background:var(--tape);color:#151515;font-family:var(--marker);padding:3px 10px 1px;transform:rotate(-1.5deg);box-shadow:0 2px 5px #0009;font-size:1rem;margin:4px 0 8px}
-.tape.a{background:#ffd36b}.tape.g{background:#9dff9f}.tape.r{background:#ff7d6e}
-.dim{color:var(--dim)} .small{font-size:.9rem}
-.card{background:linear-gradient(180deg,#1d2023,#141618);border:1px solid var(--edge);border-radius:12px;padding:14px;margin:12px 0}
-.hl{color:var(--amber)}
-.cover{min-height:100%;display:flex;flex-direction:column;justify-content:center}
-.freq{font-family:var(--mono);color:var(--amber);font-size:.8rem;letter-spacing:.2em}
-/* bottom */
-.bot{display:flex;gap:8px;padding:10px 14px calc(10px + var(--sb));border-top:1px solid var(--edge);background:#0d0e0f}
-.nb{border:1px solid #000;border-radius:10px;padding:14px 11px;background:linear-gradient(180deg,#34393e,#22262a);box-shadow:0 2px 0 #000;font-family:var(--mono);text-transform:uppercase;letter-spacing:.03em;font-size:.8rem}
-.nb:active{transform:translateY(2px);box-shadow:none}
-.nb.go{flex:1;background:linear-gradient(180deg,#ffc93d,#d48a00);color:#1b1100;font-weight:700;font-size:1rem}
-.nb.go.next{background:linear-gradient(180deg,#2bd162,#169443);color:#02140a}
-.nb[disabled]{opacity:.35}
-.hintdots{display:flex;gap:4px;justify-content:center;margin-top:3px}
-.hintdots i{width:5px;height:5px;border-radius:50%;background:#00000055}.hintdots i.v{background:#000}
-/* index */
-.idx{position:fixed;inset:0;z-index:20;background:#000d;display:none;padding:calc(14px + var(--st)) 14px calc(14px + var(--sb))}
-.idx.open{display:block}
-.idx .in{max-width:560px;margin:0 auto;background:var(--panel);border:1px solid var(--edge);border-radius:14px;max-height:100%;overflow:auto;padding:14px}
-.idx a{display:flex;gap:12px;align-items:center;padding:11px 8px;border-bottom:1px solid #23272b;color:var(--ink);text-decoration:none}
-.idx a .n{font-family:var(--head);font-size:1.7rem;color:var(--amber);width:40px;flex:none}
-.idx a .t{font-family:var(--head);font-size:1.35rem;text-transform:uppercase;letter-spacing:.02em;line-height:1.1}
-.idx a.lock{opacity:.35;pointer-events:none}.idx a.lock .n{color:var(--dim)}
-.idx a .s{margin-left:auto;font-family:var(--mono);font-size:.7rem;color:var(--dim)}
-/* widgets */
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.chip{border:1px solid var(--edge);background:#131517;border-radius:999px;padding:9px 13px;font-size:.95rem}
-.chip.on{background:var(--amber);color:#111;border-color:var(--amber)}
-.chip.ok{background:#123b20;border-color:var(--led)} .chip.no{text-decoration:line-through;opacity:.45}
-.reveal{min-height:3.2em;margin-top:6px;padding:12px;border-radius:10px;background:#0e1011;border:1px dashed var(--edge);font-size:1rem;line-height:1.45}
-.count{font-family:var(--mono);font-size:.75rem;color:var(--dim)}
-.roots{position:relative;height:300px;margin:6px 0}
-.roots .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:96px;height:96px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:1.3rem;box-shadow:0 0 30px #ff3b3b66}
-.roots .chip{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:.85rem;padding:8px 11px}
-.roots svg{position:absolute;inset:0;width:100%;height:100%}
-.flip{perspective:900px;margin:10px 0;cursor:pointer}
-.flip .fi{position:relative;min-height:110px;transition:transform .5s;transform-style:preserve-3d}
-.flip.on .fi{transform:rotateY(180deg)}
-.flip .fa,.flip .fb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;padding:14px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--edge)}
-.flip .fa{background:#17191b}.flip .fa:after{content:"toca para girar ↻";font-family:var(--mono);font-size:.7rem;color:var(--dim);margin-top:8px}
-.flip .fb{transform:rotateY(180deg);background:#0f1a12;border-color:#24563a}
-.flip .fb.myth{background:#1d0f0d;border-color:#5c2018}
-.flip .lbl{font-family:var(--head);font-size:1.2rem;letter-spacing:.04em}
-.flip .fb .lbl{color:var(--led)} .flip .fb.myth .lbl{color:var(--red)}
-.pulses{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
-.pulse{background:#0d0f10;border:1px solid var(--edge);border-radius:12px;padding:14px;text-align:center}
-.pulse .dot{width:58px;height:58px;border-radius:50%;margin:6px auto 10px;background:#2a1c00;animation:beat var(--d,.4286s) infinite}
-.pulse.l .dot{background:#00242c;--c:var(--cyan)}
-.pulse .n{font-family:var(--head);font-size:2.2rem;line-height:1}
-@keyframes beat{0%{background:var(--c,var(--amber));box-shadow:0 0 26px var(--c,var(--amber));transform:scale(1.08)}35%{background:#1b1b1b;box-shadow:none;transform:scale(1)}100%{background:#1b1b1b}}
-input[type=range]{width:100%;accent-color:var(--amber);height:34px}
-.lcd{font-family:var(--mono);background:#071108;color:var(--led);border:1px solid #1d3a22;border-radius:6px;padding:4px 10px;display:inline-block;text-shadow:0 0 6px #3dff7a88}
-.grid16{display:grid;grid-template-columns:repeat(16,1fr);gap:3px;margin:10px 0}
-.grid16 i{aspect-ratio:1/1.6;border-radius:3px;background:#1a1d20}
-.grid16 i.k{background:var(--red)}.grid16 i.s{background:var(--amber)}.grid16 i.h{background:#3c4248}
-.grid16 i.q{box-shadow:inset 0 -3px 0 #ffffff44}
-.legend{display:flex;gap:12px;font-family:var(--mono);font-size:.72rem;color:var(--dim);flex-wrap:wrap}.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
-.seg2{display:flex;gap:6px;margin:8px 0}.seg2 button{flex:1;padding:10px;border-radius:8px;border:1px solid var(--edge);background:#131517;font-family:var(--mono);font-size:.8rem;text-transform:uppercase}
-.seg2 button.on{background:var(--ink);color:#111}
-.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
-.journey div{border-radius:10px;padding:12px 8px;text-align:center;font-family:var(--head);font-size:1rem;text-transform:uppercase;background:#16191c;border:1px solid var(--edge)}
-.mcline{height:30px;border-radius:8px;background:repeating-linear-gradient(90deg,var(--led) 0 14px,#0000 14px 22px);opacity:1;transition:opacity .4s;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.75rem;color:#000;font-weight:700}
-.mcline.off{opacity:.08}
-.meter{height:14px;border-radius:7px;background:#111;border:1px solid #000;overflow:hidden;margin:6px 0}
-.meter b{display:block;height:100%;background:linear-gradient(90deg,var(--led),var(--amber) 70%,var(--red));transition:width .5s}
-.opt{display:block;width:100%;text-align:left;padding:13px;border-radius:10px;border:1px solid var(--edge);background:#131517;margin:8px 0;font-size:1rem}
-.opt.ok{border-color:var(--led);background:#0d1a10}.opt.mid{border-color:var(--amber);background:#1a1508}.opt.no{border-color:var(--red);background:#1a0d0c}
-.dial{background:linear-gradient(180deg,#2a2218,#17120c);border:1px solid #3a2f20;border-radius:14px;padding:14px}
-.dial .scale{position:relative;height:42px;border-radius:6px;background:#0c0a07;border:1px solid #000;overflow:hidden;margin:8px 0}
-.dial .scale span{position:absolute;bottom:3px;font-family:var(--mono);font-size:.62rem;color:#9b8a6a;transform:translateX(-50%)}
-.dial .scale i{position:absolute;top:0;width:1px;height:12px;background:#6d5f45}
-.dial .needle{position:absolute;top:0;bottom:0;width:3px;background:var(--red);box-shadow:0 0 8px var(--red);transform:translateX(-50%)}
-.dial .screen{min-height:120px;border-radius:8px;background:#060504;border:1px solid #000;padding:12px;font-size:.98rem;line-height:1.45;position:relative;overflow:hidden}
-.dial .screen.static:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#ffffff10 0 1px,#0000 1px 3px);animation:st .15s steps(2) infinite}
-@keyframes st{50%{transform:translateY(2px)}}
-.dial .freq{display:flex;justify-content:space-between;align-items:center}
-.bars64{display:grid;grid-template-columns:repeat(16,1fr);gap:2px;margin:10px 0}
-.bars64 i{height:12px;border-radius:2px;background:#1c1f22}
-.bars64 i.a{background:#174a5a}.bars64 i.b{background:#5a3f0a}.bars64 i.c{background:#5a1a12}.bars64 i.d{background:#2d4a17}
-.train{position:relative;height:90px;border-radius:12px;background:#0d0f10;border:1px solid var(--edge);overflow:hidden;margin:10px 0}
-.train .rail{position:absolute;left:0;right:0;bottom:16px;height:3px;background:#333}
-.train .cars{position:absolute;bottom:20px;left:0;display:flex;animation:roll 9s linear infinite;width:max-content;will-change:transform}
-.train .car{width:80px;margin-right:6px;flex:none;height:38px;border-radius:6px;font-family:var(--mono);font-size:.62rem;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700}
-@keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.train .rider{position:absolute;top:8px;font-size:1.3rem;transition:left .5s}
-.mics{display:flex;justify-content:center;gap:4px;font-size:2rem;min-height:52px;align-items:center;margin:8px 0}
-.mics span{animation:pop .35s}
-@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;border-radius:9px;border:1px solid #000;background:linear-gradient(180deg,#34393e,#22262a);box-shadow:0 2px 0 #000;font-family:var(--mono);font-size:.85rem;text-transform:uppercase}
-.btn.a{background:linear-gradient(180deg,#ffc93d,#d48a00);color:#1b1100}.btn.r{background:linear-gradient(180deg,#ff5a4a,#c42417);color:#fff}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.echo{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin:10px 0;border-radius:12px;background:#0d0f10;border:1px solid var(--edge);padding:10px;text-align:center}
-.echo .l{font-family:var(--head);text-transform:uppercase;animation:pop .3s}
-.echo .l.mc{color:var(--amber);font-size:1.4rem}.echo .l.cr{color:var(--led);font-size:1.1rem;opacity:.85}
-input.txt{width:100%;padding:12px;border-radius:10px;border:1px solid var(--edge);background:#0c0d0e;color:var(--ink);font:inherit;font-size:1rem}
-.sea{position:relative;height:150px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#0b1a24,#0b0c0d);border:1px solid var(--edge);margin:10px 0}
-.sea .water{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,#1f6f8f,#0b3448);transition:height .35s}
-.sea .water:before{content:"";position:absolute;top:-8px;left:0;right:0;height:16px;background:radial-gradient(circle at 10px 16px,#1f6f8f 9px,#0000 10px) 0 0/20px 16px repeat-x}
-.sea .wave{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:3rem;color:#fff;text-shadow:0 0 20px var(--cyan);opacity:0;transition:opacity .2s}
-.sea.hit .wave{opacity:1}.sea.hit .water{height:100%!important;background:linear-gradient(180deg,#5fd3ff,#1f6f8f)}
-.signals{display:grid;gap:6px;margin:8px 0}
-.signals div{padding:9px 12px;border-radius:8px;background:#131517;border:1px solid var(--edge);color:#555;font-size:.92rem;transition:all .3s}
-.signals div.on{color:var(--ink);border-color:var(--amber);background:#1a1508}
-.types{display:grid;gap:8px;margin:10px 0}
-.types .card{margin:0}
-.eq{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:14px 0;font-family:var(--head);font-size:1.3rem;text-transform:uppercase}
-.eq .t{padding:10px 12px;border-radius:10px;border:1px dashed var(--edge);color:#555;transition:all .3s}
-.eq .t.on{border-style:solid;border-color:var(--amber);color:var(--ink);background:#1a1508}
-.eq .op{color:var(--dim)}
-.check{display:flex;gap:10px;align-items:center;padding:12px;border-radius:10px;border:1px solid var(--edge);background:#131517;margin:6px 0;width:100%;text-align:left;font-size:1rem}
-.check i{width:22px;height:22px;border-radius:6px;border:2px solid var(--dim);flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:.9rem}
-.check.on{border-color:#24563a;background:#0f1a12}.check.on i{background:var(--led);border-color:var(--led);color:#000}
-.quote{font-family:var(--marker);font-size:1.5rem;line-height:1.25;color:var(--tape);transform:rotate(-1deg);margin:16px 0}
-.toast{position:fixed;left:50%;top:calc(70px + var(--st));transform:translate(-50%,-10px);opacity:0;z-index:30;padding:9px 14px;border-radius:8px;background:#000;border:1px solid var(--led);color:var(--led);font-family:var(--head);font-size:1.15rem;text-transform:uppercase;transition:all .2s;pointer-events:none;white-space:nowrap}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-
-.term{border-bottom:1px dashed var(--amber);cursor:help}
-.gbtn{position:fixed;right:14px;bottom:calc(86px + var(--sb));z-index:15;width:50px;height:50px;border-radius:50%;border:2px solid #000;background:var(--tape);color:#111;font-family:var(--marker);font-size:1.3rem;box-shadow:0 4px 12px #000a}
-.drawer{position:fixed;inset:0;z-index:25;background:#000b;display:none}.drawer.open{display:block}
-.drawer .in{position:absolute;right:0;top:0;bottom:0;width:min(420px,100%);background:var(--panel);border-left:1px solid var(--edge);overflow:auto;padding:calc(14px + var(--st)) 16px calc(24px + var(--sb))}
-.gsearch{width:100%;padding:11px;border-radius:9px;border:1px solid var(--edge);background:#0c0d0e;color:var(--ink);font:inherit;margin:8px 0 6px}
-.gterm{padding:11px 0;border-bottom:1px solid #23272b}.gterm h4{margin:0;font-family:var(--head);font-weight:400;font-size:1.2rem;letter-spacing:.03em;text-transform:uppercase}
-.gterm h4 em{font-family:var(--mono);font-style:normal;font-size:.72rem;color:var(--dim);text-transform:none;margin-left:6px}.gterm p{margin:4px 0;font-size:.95rem}
-.gterm.hit{background:#1a1508;border-radius:8px;padding-left:8px;padding-right:8px}
-
-.plan .lab{font-family:var(--mono);font-size:.72rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin:10px 0 4px;display:flex;justify-content:space-between}
-.plan .g{display:grid;grid-template-columns:repeat(16,1fr);gap:2px}
-.plan .g i{height:16px;border-radius:2px;background:#1a1d20;font-style:normal;font-size:.6rem;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .3s}
-.plan .g.p i{height:10px;opacity:.55}
-.plan .A{background:#1e6a85!important}.plan .B{background:#9a6b0c!important}.plan .C{background:#8a2a1f!important}.plan .D{background:#3f6e1f!important}
-.plan .g i.now{outline:2px solid #fff;outline-offset:-1px}
-.moment{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px;border-radius:10px;background:#0e1011;border:1px solid var(--edge);min-height:92px}
-.moment .bar{font-family:var(--head);font-size:1.5rem;color:var(--amber);line-height:1;min-width:58px}
-.moment .bar small{display:block;font-family:var(--mono);font-size:.6rem;color:var(--dim)}
-.vs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
-.vs button{padding:12px 8px;border-radius:10px;border:1px solid var(--edge);background:#131517;font-family:var(--head);font-size:1.1rem;text-transform:uppercase}
-.vs button.on{background:var(--ink);color:#111}
-.flowset{position:relative;padding-left:22px}
-.flowset:before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:3px;border-radius:2px;background:#2a2e32;transition:background .4s}
-.flowset.mc:before{background:linear-gradient(var(--led),var(--amber),var(--red))}
-.gblock{position:relative;border-radius:10px;padding:12px;background:#15181a;border:1px solid var(--edge);margin:6px 0}
-.gblock:before{content:"";position:absolute;left:-19px;top:16px;width:11px;height:11px;border-radius:50%;background:#444;border:2px solid #0b0c0d}
-.flowset.mc .gblock:before{background:var(--led)}
-.gblock .gn{font-family:var(--head);font-size:1.25rem;text-transform:uppercase}
-.gblock .gm{font-size:.92rem;margin-top:4px;color:var(--dim)}
-.flowset.mc .gblock .gm{color:var(--ink)}
-.gcut{font-family:var(--mono);font-size:.75rem;padding:4px 0 4px 2px;color:#666}
-.flowset.mc .gcut{color:var(--amber)}
-.verdict{margin-top:10px;padding:12px;border-radius:10px;font-size:1rem;border:1px solid var(--edge);background:#0e1011}
-.flowset.mc+.verdict{border-color:#24563a;background:#0f1a12}
-
-.hx{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.hx button{text-align:left;padding:12px;border-radius:12px;border:1px solid var(--edge);background:#131517;min-height:86px}
-.hx button.on{border-color:var(--amber);background:#1a1508}
-.hx .ty{font-family:var(--mono);font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
-.hx .ht{font-family:var(--head);font-size:1.2rem;text-transform:uppercase;line-height:1.1;margin-top:4px}
-.viz{border-radius:12px;background:#0d0f10;border:1px solid var(--edge);padding:10px;margin-top:8px}
-.vrow{display:grid;grid-template-columns:44px 1fr;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #1d2023;opacity:.15;transition:opacity .35s}
-.vrow:last-of-type{border-bottom:0}.vrow.on{opacity:1}
-.vrow .vn{font-family:var(--mono);font-size:.65rem;color:var(--dim);text-align:center;line-height:1.2}
-.vrow .vn b{display:block;font-family:var(--head);font-size:1.3rem;color:var(--ink);font-weight:400}
-.mcb{display:inline-block;background:var(--amber);color:#111;border-radius:12px 12px 12px 2px;padding:5px 10px;font-family:var(--head);text-transform:uppercase;font-size:1rem}
-.crowd{margin-top:5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.crowd .ppl{letter-spacing:-3px;font-size:.85rem;line-height:1}
-.crowd .cb{font-family:var(--head);text-transform:uppercase;color:var(--led)}
-.vfoot{display:flex;align-items:center;gap:8px;margin-top:8px;font-family:var(--mono);font-size:.7rem;color:var(--dim)}
-.vfoot .meter{flex:1;margin:0}
-.vnote{font-size:.92rem;margin-top:8px;min-height:2.6em}
-@media(min-width:800px){.slide{padding-top:30px}}
-</style></head>
+/* VOICE: rave a oscuras, directo, de la escena; frases cortas.
+   IDEA: la mesa de corte de un clip de directo: escenario vertical a la izquierda, mesa de mezclas a la derecha.
+   PICTURE: el propio clip en vertical (MC arriba, DJ abajo, logo en la unión), vivo y grande.
+   COLOUR and TYPE: noche azul eléctrico de las luces del Apolo, blanco del logo, naranja de la camiseta como acento; Big Shoulders + Inter.
+   LAYOUT: escenario 9:16 a la izquierda, controles a la derecha; en móvil, escenario arriba y controles debajo. */
+:root{color-scheme:dark;--bg:#05061a;--panel:#0c1036;--line:#1f2766;--blue:#3347ff;--ink:#eef0ff;--mute:#9aa2d9;--acc:#ff6a1f}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{background:var(--bg)}
+body{margin:0;background:radial-gradient(120% 70% at 20% 0%,#141c7a 0%,var(--bg) 60%) fixed;color:var(--ink);font:16px/1.5 Inter,system-ui,sans-serif;overflow-x:clip;min-height:100vh}
+button,input{font:inherit;color:inherit}
+header{display:flex;align-items:center;gap:14px;padding:16px max(4vw,16px)}
+header img{height:44px}
+header .t{font:900 22px/1 'Big Shoulders Display',sans-serif;letter-spacing:.02em}
+header .s{color:var(--mute);font-size:14px}
+main{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,3vw,40px);padding:8px max(4vw,16px) 40px;max-width:1240px;margin:0 auto;align-items:start}
+.stage{position:relative;height:min(82vh,860px);aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 30px 80px -20px #2236ff66,0 0 0 1px var(--line)}
+.stage canvas{width:100%;height:100%;display:block}
+.stage .big{position:absolute;inset:0;display:grid;place-items:center;background:#0006;border:0;cursor:pointer}
+.stage .big svg{width:84px;height:84px}
+.stage .msg{position:absolute;left:16px;right:16px;bottom:16px;background:#05061ae6;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--mute)}
+.stage .msg:empty{display:none}
+.stage .rec{position:absolute;top:12px;left:12px;background:#e01b3c;color:#fff;font-weight:600;font-size:13px;padding:4px 10px;border-radius:99px;display:none}
+.side{display:flex;flex-direction:column;gap:22px}
+h1{font:900 clamp(34px,4.6vw,52px)/1.02 'Big Shoulders Display',sans-serif;margin:6px 0 4px;text-wrap:balance;text-transform:uppercase}
+.lead{color:var(--mute);margin:0;max-width:60ch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:#141a52;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn:hover{background:#1b236a}.btn:focus-visible,.tl:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#140600}
+.btn.pri:hover{background:#ff8040}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{min-height:36px;padding:0 10px;font-size:14px}
+.time{font-variant-numeric:tabular-nums;font-weight:600}
+.tl{position:relative;height:64px;margin:14px 0 6px;border-radius:10px;background:repeating-linear-gradient(90deg,#141a52 0 2px,transparent 2px 9px),#0a0d2c;cursor:pointer;touch-action:none;user-select:none}
+.sel{position:absolute;top:0;bottom:0;background:#ff6a1f33;border:2px solid var(--acc);border-radius:8px}
+.h{position:absolute;top:-6px;bottom:-6px;width:22px;margin-left:-11px;cursor:ew-resize;display:grid;place-items:center}
+.h::after{content:"";width:8px;height:100%;border-radius:4px;background:var(--acc);box-shadow:0 0 0 2px var(--bg)}
+.ph{position:absolute;top:-4px;bottom:-4px;width:2px;background:#fff;pointer-events:none;box-shadow:0 0 10px #fff}
+.ticks{display:flex;justify-content:space-between;color:var(--mute);font-size:13px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.pt label{display:block;color:var(--mute);font-size:13px;margin-bottom:4px}
+.pt input{width:100%;min-height:44px;border-radius:10px;border:1px solid var(--line);background:#070923;padding:0 12px;font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.pt .row{margin-top:8px;gap:6px}
+.len{margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.len b{font:900 28px/1 'Big Shoulders Display',sans-serif}
+.warn{color:#ff9a9a;font-size:14px}
+.bar{height:10px;border-radius:99px;background:#070923;overflow:hidden;margin:12px 0 6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--acc))}
+.out{display:none;gap:16px;align-items:flex-start;margin-top:12px}
+.out video{width:120px;aspect-ratio:9/16;border-radius:8px;background:#000;flex:none}
+.small{font-size:13px;color:var(--mute)}
+.note{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
+.hide{position:fixed;left:-10px;top:-10px;width:2px;height:2px;opacity:0;pointer-events:none}
+@media(max-width:820px){main{grid-template-columns:minmax(0,1fr)}.stage{height:auto;width:min(100%,calc(62vh*9/16));margin:0 auto}}
+@media(max-width:420px){.grid2{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
 <body>
-<div id="app">
-  <header class="top"><div class="topr"><span class="brand">BARNA <b>GRIME</b></span><span class="chap" id="chap"></span></div><div class="segs" id="segs"></div></header>
-  <main class="stage" id="stage"></main>
-  <nav class="bot"><button class="nb" id="prev" aria-label="Atrás">◂</button><button class="nb" id="index">Índice</button><button class="nb" id="gbtn">Glosario</button><button class="nb go" id="next"><span id="nextl">Descubrir</span><div class="hintdots" id="dots"></div></button></nav>
+<header>
+  <img src="logo.svg" alt="Barna Grime">
+  <div><div class="t">BARNA GRIME</div><div class="s" id="setName">Set completo</div></div>
+</header>
+<main>
+  <div class="stage" id="stage">
+    <canvas id="cv" width="540" height="960" aria-label="Vista previa del clip"></canvas>
+    <span class="rec" id="recBadge">● Generando clip</span>
+    <div class="msg" id="stageMsg">Cargando el set…</div>
+    <button class="big" id="bigPlay" aria-label="Reproducir"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#ff6a1f"/><path d="M34 26l26 16-26 16z" fill="#140600"/></svg></button>
+  </div>
+  <div class="side">
+    <div>
+      <h1>Corta tu momento del set</h1>
+      <p class="lead">Mira el set entero, marca dónde empieza y dónde acaba tu momento, y llévatelo como clip vertical listo para stories y reels.</p>
+    </div>
+    <div class="card">
+      <div class="row">
+        <button class="btn" id="playBtn">▶ Play</button>
+        <button class="btn sm" data-skip="-10">−10 s</button>
+        <button class="btn sm" data-skip="10">+10 s</button>
+        <span class="time" id="clock">0:00 / 0:00</span>
+      </div>
+      <div class="tl" id="tl" tabindex="0" aria-label="Línea de tiempo del set">
+        <div class="sel" id="sel"></div>
+        <div class="h" id="hIn" aria-label="Inicio"></div>
+        <div class="h" id="hOut" aria-label="Final"></div>
+        <div class="ph" id="ph"></div>
+      </div>
+      <div class="ticks" id="ticks"></div>
+      <div class="grid2">
+        <div class="pt">
+          <label for="inT">Desde</label>
+          <input id="inT" inputmode="decimal" value="0:00.0">
+          <div class="row"><button class="btn sm" data-n="in" data-d="-1">−1 s</button><button class="btn sm" data-n="in" data-d="1">+1 s</button><button class="btn sm" id="markIn">Marcar aquí (I)</button></div>
+        </div>
+        <div class="pt">
+          <label for="outT">Hasta</label>
+          <input id="outT" inputmode="decimal" value="0:30.0">
+          <div class="row"><button class="btn sm" data-n="out" data-d="-1">−1 s</button><button class="btn sm" data-n="out" data-d="1">+1 s</button><button class="btn sm" id="markOut">Marcar aquí (O)</button></div>
+        </div>
+      </div>
+      <div class="len">
+        <div><span class="small">Duración del clip</span><br><b id="lenTxt">30,0 s</b> <span class="warn" id="lenWarn"></span></div>
+        <div class="row"><button class="btn sm" id="previewSel">▶ Escuchar selección</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <div><b>Exportar clip</b><div class="small">Vertical 1080×1920, tal cual lo ves en el visor</div></div>
+        <button class="btn pri" id="exportBtn">Crear clip</button>
+      </div>
+      <div id="prog" style="display:none">
+        <div class="bar"><i id="barFill"></i></div>
+        <div class="row" style="justify-content:space-between"><span class="small" id="progTxt">Preparando…</span><button class="btn sm" id="cancelBtn">Cancelar</button></div>
+        <div class="small">Se graba en tiempo real: deja esta pestaña abierta y visible hasta que termine.</div>
+      </div>
+      <div class="out" id="out">
+        <video id="outVid" controls playsinline></video>
+        <div>
+          <div><b id="outName"></b></div>
+          <div class="small" id="outInfo"></div>
+          <div class="row" style="margin-top:10px"><button class="btn pri" id="saveBtn">Guardar en el dispositivo</button><button class="btn sm" id="againBtn">Hacer otro</button></div>
+          <div class="small" id="saveMsg" style="margin-top:8px"></div>
+        </div>
+      </div>
+      <p class="note" id="demoNote">Demo con un fragmento de 45 s del set del Apolo. La versión final tendrá el set completo.</p>
+    </div>
+  </div>
+</main>
+
+<div class="hide">
+  <video id="aud" playsinline preload="auto" crossorigin="anonymous"></video>
 </div>
-<div class="idx" id="idx"><div class="in"><div class="row" style="justify-content:space-between"><h2 style="margin:0;font-size:2rem">Índice</h2><button class="btn" id="idxc">✕</button></div><p class="small dim">Los capítulos se desbloquean a medida que avanzas.</p><div id="idxl"></div></div></div>
-<div class="drawer" id="drawer"><div class="in"><div class="row" style="justify-content:space-between"><h2 style="margin:0;font-size:2rem">Glosario</h2><button class="btn" id="gclose">✕</button></div>
-<input class="gsearch" id="gq" placeholder="Buscar término…"><div id="glist"></div></div></div>
-<div class="toast" id="toast"></div>
 
 <script>
-/* ============ CONTENIDO ============
-   Cada slide: ch (capítulo 0-14), html. Los elementos con class="f" se descubren uno a uno.
-   data-w="nombre" monta un widget interactivo. */
-const CH=['Inicio','Orígenes y contexto','La base: 140 BPM','El sonido','Los MCs','La radio','Los DJs','Las bases no paran','No necesariamente improvisan','Los hooks','El drop','El pullup','Los sets','Deporte y pasión','Carrera y forma de vida'];
-const S=[
-{ch:0,html:`<div class="cover"><div class="freq">▮▮▮ BCN · 140 · ON AIR</div><h1>Barna<br><span>Grime</span></h1>
- <p class="dim">Una introducción a la cultura, sus códigos y sus formas de expresión.</p>
- <p class="f">14 claves para entrar en un set. No se leen de golpe: <b class="hl">se descubren</b>.</p>
- <p class="f small dim">Pulsa el botón amarillo para ir revelando. Algunas pantallas tienen cosas que tocar.</p></div>`},
-
-/* 1 ORÍGENES */
-{ch:1,html:`<div class="kicker">01 · Orígenes y contexto</div><h2>Este de <span>Londres</span></h2>
- <p class="f">Finales de los 90, principios de los 2000.</p>
- <p class="f">Un espacio de expresión para las juventudes de los barrios populares, especialmente las comunidades <b>afrodescendientes y afrocaribeñas</b> de la ciudad.</p>
- <p class="f">Una herramienta para expresar <b class="hl">rabia, frustración, identidad</b>… y liberar energía a través de la música y la palabra.</p>`},
-{ch:1,html:`<div class="kicker">01 · Orígenes y contexto</div><h2>Las <span>raíces</span></h2>
- <p class="small dim">Toca cada raíz para ver qué aporta.</p><div data-w="roots"></div>
- <div class="f card"><p style="margin:0">El grime no nace de una única tradición: es el <b>encuentro</b> de culturas, sonidos y realidades. La diáspora africana y caribeña en el contexto británico tiene un papel fundamental.</p></div>`},
-{ch:1,html:`<div class="kicker">01 · Orígenes y contexto</div><h2>El grime <span>hoy</span></h2>
- <p class="f">Un <b>sonido</b>, un <b>espacio</b> y una <b>plataforma</b> de expresión.</p>
- <p class="f">Los DJs mezclan <span class="term" data-t="Deep dubstep">deep dubstep</span>, <span class="term" data-t="2-step">2-step</span> o funk brasileño. Los MCs vienen de realidades y tradiciones muy diversas.</p>
- <p class="f">Muchas reglas iniciales se han transformado. Eso ha permitido cuestionar códigos conservadores, como ciertas expresiones de <b>masculinidad tóxica</b>, y abrir espacio a nuevas identidades y discursos.</p>
- <div class="f big">No es solo un sonido: es una forma de ocupar un espacio y expresarse dentro de él.</div>`},
-
-/* 2 BPM */
-{ch:2,html:`<div class="kicker">02 · La base</div><h2>140 <span>BPM</span></h2>
- <p class="f">Históricamente, el grime se ha desarrollado alrededor de los <b>140 BPM</b>: una de sus señas de identidad.</p>
- <p class="f">También se usan bases a <b>70 BPM</b>, la mitad exacta. Encajan con la misma sensación rítmica.</p>
- <div class="f" data-w="bpm"></div>`},
-{ch:2,html:`<div class="kicker">02 · La base</div><h2>Una <span>referencia</span>, no una frontera</h2>
- <p class="f">Algunas bases se aceleran o se ralentizan para adaptarse a la sesión y mezclarse con otros géneros.</p>
- <div class="f" data-w="tempo"></div>
- <p class="f">Más allá del número, lo importante es la relación entre el <b>tempo</b>, el <b>ritmo</b> y cómo el MC <b>coloca su voz</b>.</p>`},
-
-/* 3 SONIDO */
-{ch:3,html:`<div class="kicker">03 · El sonido</div><h2>Roto y <span>contundente</span></h2>
- <p class="f">Patrones sincopados · bajos potentes · sintetizadores agresivos · sonoridad áspera o saturada.</p>
- <p class="f">La métrica suele ser un 4/4 regular, pero los patrones juegan con los <b>acentos</b>, los <b>silencios</b> y los <b>desplazamientos</b>. Compara:</p>
- <div class="f" data-w="steps"></div>`},
-{ch:3,html:`<div class="kicker">03 · El sonido</div><h2>¿Qué hace que un set <span>sea grime</span>?</h2>
- <p class="f">Como <b>performance</b>, la definición se amplía. No hay una lista cerrada de instrumentales permitidos.</p>
- <p class="f">Los mismos tres instrumentales, dos maneras de vivirlos. Cambia entre las dos:</p><div class="f" data-w="journey"></div>
- <div class="f big">La continuidad la ponen sobre todo los MCs: su presencia y su manera de actuar.</div>`},
-
-/* 4 MCs */
-{ch:4,html:`<div class="kicker">04 · Los MCs</div><h2>El MC es <span>personalidad</span></h2>
- <p class="f">Desde artistas que llegaron al mainstream internacional, como <b>Skepta</b>…</p>
- <p class="f">…hasta MCs legendarios que nunca publicaron una canción comercial y cuya historia sobrevive en grabaciones de radio y fragmentos de sets.</p>
- <p class="f">Sus barras circulaban entre jóvenes por CDs, teléfonos y archivos compartidos. Muchos se hicieron leyenda sin perseguir la fama.</p>
- <p class="f">El grime no existiría sin sus MCs: no tanto por sus canciones, sino por las <b class="hl">personalidades</b> que hacían explotar cada sesión.</p>`},
-{ch:4,html:`<div class="kicker">04 · Los MCs</div><h2>¿Qué <span>cumple</span> su cometido?</h2>
- <p class="small dim">Tres intervenciones en un set. ¿Cuál vale?</p><div data-w="mcpick"></div>
- <p class="f">La técnica importa, pero <b>no es el único criterio</b>.</p>
- <div class="f big">Generar momentos memorables puede valer más que cualquier virtuosismo.</div>`},
-
-/* 5 RADIO */
-{ch:5,html:`<div class="kicker">05 · La radio</div><h2>Donde el grime <span>vive</span></h2>
- <p class="f">En los <b><span class="term" data-t="Radio set">radio sets</span></b> se ve con claridad su naturaleza colectiva y espontánea.</p>
- <p class="f">Para muchos MCs, hacer carrera es estar constantemente en sesiones de radio: ahí se demuestra la constancia, se perfeccionan habilidades y se construye <b>reputación</b>.</p>
- <p class="f">Muchas canciones nacen de barras o hooks que conectaron tanto en un set que acabaron siendo temas propios.</p>
- <p class="f">Y a veces la versión en directo es <b class="hl">más legendaria</b> que la grabada: hay fans que recuerdan sets concretos con barras que nunca se publicaron.</p>`},
-{ch:5,html:`<div class="kicker">05 · La radio</div><h2>Mueve el <span>dial</span></h2>
- <p class="small dim">Desliza para sintonizar cada época.</p><div data-w="dial"></div>
- <div class="f big">Más que un medio: una institución cultural.</div>`},
-
-/* 6 DJs */
-{ch:6,html:`<div class="kicker">06 · Los DJs</div><h2>¿Mito o <span>realidad</span>?</h2>
- <div data-w="flips6"></div>
- <p class="f">Su trabajo: mantener el ritmo de la sesión, seleccionar instrumentales, gestionar transiciones y <b>leer constantemente a los MCs</b>.</p>
- <p class="f">Muchos tienen <b><span class="term" data-t="Residencia">residencias</span></b> en emisoras, donde organizan sesiones periódicas e invitan a distintos MCs.</p>`},
-{ch:6,html:`<div class="kicker">06 · Los DJs</div><h2>Cada cuánto <span>cambia</span> el beat</h2>
- <p class="f">Muchos sets cambian de instrumental cada 16, 32 o 64 barras, aunque no hay una regla universal.</p>
- <p class="f">Así se ve un set de 64 barras sobre el papel… y lo que pasa cuando el DJ <b>lee a los MCs</b>:</p>
- <div class="f" data-w="djset"></div>
- <div class="f big">Un buen DJ no pone música: construye una sesión.</div>`},
-
-/* 7 BASES NO PARAN */
-{ch:7,html:`<div class="kicker">07 · Las bases no paran</div><h2>Un tren <span>en marcha</span></h2>
- <p class="f">Los instrumentales no se detienen entre intervenciones. El DJ mete beats nuevos sin perder el compás y los MCs van rotando encima.</p>
- <p class="f">Los MCs se pasan el micro (<span class="term" data-t="Pass the mic">pass the mic</span>)… o se lo disputan amistosamente para pillar un beat antes de que cambie.</p>
- <div class="f" data-w="train"></div>`},
-{ch:7,html:`<div class="kicker">07 · Las bases no paran</div><h2>La energía <span>sube</span></h2>
- <p class="f">A medida que avanza el set, se suman MCs, se comparte el espacio vocal y crece la intensidad.</p>
- <div class="f" data-w="mics"></div>
- <div class="f big">No se espera a que termine una canción. Se aprende a entrar en una sesión que ya está en movimiento.</div>`},
-
-/* 8 IMPROVISACIÓN */
-{ch:8,html:`<div class="kicker">08 · Improvisación</div><h2>No es una <span>batalla de gallos</span></h2>
- <p class="f">Por la tradición del rap en España y la popularidad de las batallas, se tiende a pensar que los MCs de grime improvisan todo el tiempo.</p>
- <p class="f"><b class="hl">En realidad, no suele ser así.</b> Gira las cartas:</p>
- <div class="f" data-w="flips8"></div>`},
-{ch:8,html:`<div class="kicker">08 · Improvisación</div><h2>Improvisar <span>también</span> es…</h2>
- <p class="small dim">Toca cada forma de improvisar.</p><div data-w="impro"></div>
- <p class="f">La dificultad: que tus letras funcionen sobre instrumentales distintos, sin saber cuál será el siguiente beat.</p>
- <div class="f big">La habilidad no está en inventar palabras, sino en saber cuándo, cómo y dónde usarlas.</div>`},
-
-/* 9 HOOKS */
-{ch:9,html:`<div class="kicker">09 · Los hooks</div><h2>Fácil, directo, <span>pegadizo</span></h2>
- <p class="f">Frases o fragmentos vocales que se repiten para conectar con el público y generar <b>participación colectiva</b>.</p>
- <p class="f">Pueden ser de una canción del MC o inventarse en el momento. Una frase, una palabra, una <span class="term" data-t="Chant">consigna</span>… o una combinación de sonidos.</p>
- <p class="f">Así funciona en un set. Toca un ejemplo y mira qué pasa cada vez que se repite:</p><div class="f" data-w="hookex"></div>
- <p class="f">Ahora prueba con el tuyo:</p><div class="f" data-w="hook"></div>`},
-{ch:9,html:`<div class="kicker">09 · Los hooks</div><h2>¿Para qué <span>sirve</span>?</h2>
- <p class="small dim">Descubre sus seis funciones.</p><div data-w="hookfn"></div>
- <div class="f big">A veces, cuatro palabras en el momento justo generan más energía que dieciséis barras complejas.</div>`},
-
-/* 10 DROP */
-{ch:10,html:`<div class="kicker">10 · El drop</div><h2>El momento de <span>impacto</span></h2>
- <p class="f">En una canción, el artista tiene su entrada estructurada. En un set, el MC tiene que <b>escuchar constantemente</b> para detectar cuándo llega.</p>
- <p class="f">Contar compases mientras rapeas y compartes micro es complicado. Por eso los MCs desarrollan una escucha que reconoce los cambios <b>sin contar</b>.</p>
- <p class="f quote">“Como ver cómo se retira el mar antes de un tsunami.”</p>`},
-{ch:10,html:`<div class="kicker">10 · El drop</div><h2>Lee las <span>señales</span></h2>
- <p class="small dim">Arrastra hacia el drop.</p><div data-w="sea"></div>
- <p class="f">Reconocerlas te permite preparar la entrada, recuperar un hook o soltar las barras justo en el punto de máximo impacto.</p>
- <div class="f big">Dominar estas señales distingue a un MC experimentado.</div>`},
-
-/* 11 PULLUP */
-{ch:11,html:`<div class="kicker">11 · El pullup</div><h2>¡Pull <span>up</span>!</h2><p class="small dim">También lo oirás como <span class="term" data-t="Wheel up">wheel up</span> o rewind.</p>
- <p class="f">El DJ devuelve el instrumental a un punto anterior, normalmente al principio, para repetir un momento que ha provocado una reacción especialmente fuerte.</p>
- <p class="f">No se consigue rapeando más rápido ni con estructuras más complejas.</p>
- <p class="f">Se consigue provocando una reacción que haga que el público, los MCs o el propio DJ quieran <b class="hl">volver a escucharlo</b>.</p>`},
-{ch:11,html:`<div class="kicker">11 · El pullup</div><h2>Tres <span>tipos</span></h2>
- <div class="types">
-  <div class="f card"><span class="tape a">General</span><p style="margin:0">Público, MCs y DJ reaccionan a la vez y piden que se repita. De los momentos más enérgicos de una sesión.</p></div>
-  <div class="f card"><span class="tape g">De MCs</span><p style="margin:0">Los otros MCs reconocen una intervención potente y piden al DJ que la vuelva a poner. Reconocimiento entre artistas.</p></div>
-  <div class="f card"><span class="tape r">De DJ</span><p style="margin:0">El DJ repite el momento sin que nadie lo pida. Aprecio directo hacia el MC.</p></div>
- </div>
- <p class="f">Los dos últimos se aprecian especialmente en los radio sets. ¿Sabrías distinguirlos?</p>
- <div class="f" data-w="pullup"></div>
- <div class="f big">El pullup no es una repetición: es reconocimiento cultural.</div>`},
-
-/* 12 SETS */
-{ch:12,html:`<div class="kicker">12 · Los sets</div><h2>¿Qué es un <span>set</span>?</h2>
- <p class="small dim">Toca cada pieza.</p><div data-w="eq"></div>
- <p class="f">Puede pasar en una emisora, una sala, un evento… en cualquier espacio donde se dé esta interacción musical.</p>
- <p class="f">Los sets grabados capturan parte de esa energía y algunos se han vuelto legendarios. Pero nada sustituye a estar ahí.</p>
- <div class="f big">Espontaneidad, química, personalidad y contexto.</div>
- <p class="f">No depende solo de lo que suena, sino de quién está a los platos, quién tiene el micro y <b>qué pasa entre ellos</b>.</p>`},
-
-/* 13 DEPORTE */
-{ch:13,html:`<div class="kicker">13 · Deporte y pasión</div><h2>El grime es un <span>deporte</span></h2>
- <p class="f">Así lo define el DJ <b>DNDY</b>, de Skeen. Basta ver a los MCs sudando y dejándose el alma en una sesión para entenderlo.</p>
- <p class="f">Como en el deporte: dedicación, constancia y <b>entrenamiento</b>. Tu plan:</p>
- <div class="f" data-w="train13"></div>
- <p class="f quote">Nadie nace siendo el mejor.</p>
- <div class="f big">No basta con escribir buenas barras: hay que entrenar la capacidad de interpretarlas.</div>`},
-
-/* 14 CARRERA */
-{ch:14,html:`<div class="kicker">14 · Carrera y forma de vida</div><h2>You'll Never Make a Million <span>from Grime</span></h2><p class="small dim" style="margin-top:-6px">«Nunca te harás millonario con el grime»</p>
- <p class="f">Algunos artistas del grime han llegado al mainstream y han hecho carreras comerciales importantes.</p>
- <p class="f">Pero el título de <b>Lethal Bizzle</b> <i>«You'll Never Make a Million from Grime»</i> (nunca te harás millonario con el grime) resume una actitud de la escena: no entrar en el grime pensando que es una vía rápida para hacerse rico.</p>
- <p class="f">Se ha vivido como expresión impulsada por la <b>pasión</b>, la <b>comunidad</b> y la necesidad de tener un <b>espacio propio</b>.</p>
- <p class="f">Se puede construir una carrera y ganar dinero, pero su valor cultural <b class="hl">no depende</b> de su potencial económico.</p>`},
-{ch:14,html:`<div class="kicker">14 · Carrera y forma de vida</div><h2>¿Qué te da <span>valor</span> en un set?</h2>
- <p class="small dim">Toca lo que de verdad cuenta.</p><div data-w="values"></div>
- <p class="f">Un artista consolidado puede respetar enormemente a otro que nunca ha publicado una canción.</p>
- <div class="f big">La comunidad sigue siendo fundamental.</div>`},
-{ch:14,html:`<div class="cover"><div class="freq">▮▮▮ FIN DE LA EMISIÓN</div><h1>Ahora <span>te toca</span></h1>
- <p class="f quote">El grime se construye participando en él.</p>
- <p class="f">No basta con consumirlo: hay que formar parte de él. Busca sets, escucha radio, ve a sesiones, entrena… y coge el micro.</p>
- <div class="f row" style="margin-top:14px"><button class="btn a" onclick="go(0)">↺ Volver a empezar</button><button class="btn" onclick="openIdx()">Índice</button></div></div>`}
-];
-
-/* ============ WIDGETS ============ */
-const W={};
-const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1200); }
-
-W.roots=el=>{
-  const R=[['Soundsystem jamaicano','La sesión como acontecimiento colectivo: un selector, un MC sobre el riddim y el público respondiendo. De ahí vienen también los dubplates y la costumbre de rebobinar.'],
-   ['UK garage','La escena de la que salen muchos de los primeros MCs y DJs de grime, con su tradición de MCs animando sesiones en raves y radios.'],
-   ['2-step','Sus ritmos rotos y saltarines, con la caja desplazada, están en el ADN sincopado del grime.'],
-   ['Dancehall','El lenguaje y la energía vocal: expresiones, actitud y la conexión directa con el público.'],
-   ['Jungle','Bajos pesados, cultura de radio pirata y MCs encima de ritmos rápidos.'],
-   ['Hip hop','El MC que escribe barras y la idea de la palabra como herramienta de expresión.']];
-  const pos=[[50,9],[90,30],[88,72],[50,92],[11,72],[10,30]];
-  el.innerHTML=`<div class="roots"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${pos.map(p=>`<line x1="50" y1="50" x2="${p[0]}" y2="${p[1]}" stroke="#333" stroke-width=".6" stroke-dasharray="1.5 1.5"/>`).join('')}</svg><div class="core">GRIME</div>
-   ${R.map((r,i)=>`<button class="chip" data-i="${i}" style="left:${pos[i][0]}%;top:${pos[i][1]}%">${r[0]}</button>`).join('')}</div>
-   <div class="reveal" data-r>Toca una raíz.</div><div class="count" data-c>0/6 descubiertas</div>`;
-  const seen=new Set();
-  $$('.chip',el).forEach(b=>b.onclick=()=>{ const r=R[b.dataset.i]; $$('.chip',el).forEach(x=>x.classList.remove('on')); b.classList.add('on'); seen.add(b.dataset.i);
-    $('[data-r]',el).innerHTML=`<b>${r[0]}</b> — ${r[1]}`; $('[data-c]',el).textContent=`${seen.size}/6 descubiertas`; if(seen.size===6) toast('Todas las raíces'); });
+{
+/* ===== CONFIG =====
+   video: el set completo exportado desde Resolve en vertical 1080x1920,
+   con pantalla partida, tracking, logo y audio ya incluidos. */
+const SET = {
+  name: 'Apolo · set completo',
+  file: 'BARNA_GRIME_APOLO',
+  // Dirección pública del vídeo en Cloudflare R2 (o Bunny). El bucket necesita CORS para tu dominio de GitHub Pages.
+  video: 'BARNA_GRIME_APOLO_CLIP3.mp4',
+  minClip: 3, maxClip: 90, defaultClip: 30,
+  demo: true
 };
-W.bpm=el=>{ el.innerHTML=`<div class="pulses"><div class="pulse"><div class="dot" style="--d:${60/140}s"></div><div class="n">140</div><div class="small dim">cada tiempo</div></div>
-  <div class="pulse l"><div class="dot" style="--d:${60/70}s"></div><div class="n">70</div><div class="small dim">la mitad: mismo compás, otra sensación</div></div></div>
-  <p class="small dim">Mira los dos pulsos: el de 70 cae exactamente uno de cada dos del de 140. Por eso conviven en el mismo set.</p>`; };
-W.tempo=el=>{ el.innerHTML=`<div class="card"><div class="row" style="justify-content:space-between"><span class="lcd" data-v>140 BPM</span><span class="small" data-m></span></div>
-  <input type="range" min="124" max="156" value="140" data-s><div class="pulses" style="grid-template-columns:1fr"><div class="pulse" style="padding:8px"><div class="dot" data-d style="--d:${60/140}s;width:40px;height:40px"></div></div></div></div>`;
-  const s=$('[data-s]',el), up=()=>{ const v=+s.value; $('[data-v]',el).textContent=v+' BPM'; $('[data-d]',el).style.setProperty('--d',(60/v)+'s');
-    $('[data-m]',el).innerHTML=v===140?'<span class="hl">la referencia</span>':Math.abs(v-140)<=6?'sigue sonando a grime':'el DJ lo ha estirado para mezclar'; };
-  s.oninput=up; up(); };
-W.steps=el=>{
-  const P={recto:{k:[0,4,8,12],s:[4,12],h:[2,6,10,14]}, grime:{k:[0,7,10],s:[8],h:[2,3,6,11,14,15]}};
-  el.innerHTML=`<div class="seg2"><button data-p="recto">4/4 recto</button><button data-p="grime" class="on">Grime sincopado</button></div><div class="grid16" data-g></div>
-   <div class="legend"><span><b style="background:var(--red)"></b>bombo</span><span><b style="background:var(--amber)"></b>caja</span><span><b style="background:#3c4248"></b>hi-hat</span><span>▁ = tiempo fuerte</span></div><p class="small" data-t></p>`;
-  const draw=p=>{ const x=P[p]; $('[data-g]',el).innerHTML=Array.from({length:16},(_,i)=>`<i class="${x.k.includes(i)?'k':x.s.includes(i)?'s':x.h.includes(i)?'h':''} ${i%4===0?'q':''}"></i>`).join('');
-    $('[data-t]',el).textContent=p==='recto'?'Todo cae donde lo esperas: el bombo marca cada tiempo.':'El bombo esquiva los tiempos, la caja cae una vez por compás y quedan huecos: ahí respira la voz.';
-    $$('[data-p]',el).forEach(b=>b.classList.toggle('on',b.dataset.p===p)); };
-  $$('[data-p]',el).forEach(b=>b.onclick=()=>draw(b.dataset.p)); draw('grime'); };
-W.journey=el=>{
-  const G=[['Deep dubstep','Un MC se sube al beat con un hook corto: “¿Quién está en el aire?”'],['2-step','Otro MC entra con sus barras. El primero le apoya con ad-libs.'],['Funk brasileño','Vuelve el hook. La sala ya se lo sabe y lo grita.']];
-  const C=['El DJ mezcla sin parar… pero no pasa nada encima.','El hook sigue sonando por encima del cambio.'];
-  const C2=['Otro cambio. Otro tema.','Los MCs pasan de un género a otro sin soltar el micro.'];
-  el.innerHTML=`<div class="vs"><button data-m="0" class="on">Sin MCs</button><button data-m="1">Con MCs</button></div><div class="flowset" data-f></div><div class="verdict" data-v></div>`;
-  const draw=mc=>{ const f=$('[data-f]',el); f.classList.toggle('mc',mc);
-    f.innerHTML=G.map((g,i)=>`<div class="gblock"><div class="gn">${g[0]}</div><div class="gm">${mc?g[1]:'Suena el tema.'}</div></div>${i<2?`<div class="gcut">${mc?'↓ '+(i?C2:C)[1]:'— '+(i?C2:C)[0]}</div>`:''}`).join('');
-    $('[data-v]',el).innerHTML=mc?'<b>Esto es un set de grime.</b> Tres géneros distintos, una sola sesión: lo que la une es lo que hacen los MCs.':'<b>Esto es una playlist.</b> Tres temas de géneros distintos, uno detrás de otro. Nada los conecta.';
-    $$('[data-m]',el).forEach(b=>b.classList.toggle('on',+b.dataset.m===+mc)); };
-  $$('[data-m]',el).forEach(b=>b.onclick=()=>draw(b.dataset.m==='1')); draw(false); };
-W.mcpick=el=>{ const O=[['16 barras técnicamente perfectas… que nadie en la sala siente','no','Impecable sobre el papel, pero si no conecta, no cumple. La técnica sola no basta.'],
-   ['Dos palabras que toda la sala acaba gritando contigo','ok','Conecta, genera reacción. Cumple.'],
-   ['Cuatro sonidos guturales extraños que hacen saltar a todo el mundo y acaban en pullup','ok','Exacto: si conecta y consigue un pullup, ha cumplido su cometido.']];
-  el.innerHTML=O.map((o,i)=>`<button class="opt" data-i="${i}">${o[0]}</button>`).join('')+'<div class="reveal" data-r>Elige una.</div>';
-  $$('.opt',el).forEach(b=>b.onclick=()=>{ const o=O[b.dataset.i]; b.className='opt '+o[1]; $('[data-r]',el).innerHTML=o[2]+(o[1]==='ok'?'':' <span class="dim">Prueba las otras.</span>'); }); };
-W.dial=el=>{ const St=[[89.2,'Pirata · Azotea','Una antena en lo alto de un bloque. Sonar aquí era uno de los grandes objetivos de muchos jóvenes: DJs y MCs llegaban al público sin depender de la industria.'],
-   [94.6,'Interferencia','La persecución policial y las intervenciones contra emisoras sin licencia cambiaron la cultura. Pero la radio no desapareció…'],
-   [99.8,'Emisoras legales','…evolucionó hacia emisoras con licencia y residencias estables para DJs y MCs.'],
-   [105.4,'Online · Hoy','Plataformas online y nuevos formatos. Hoy hay muchísimas radios, FM y online, que mantienen viva la tradición.']];
-  el.innerHTML=`<div class="dial"><div class="freq"><span class="lcd" data-f>88.0 FM</span><span class="small" data-n style="color:#c9b48a"></span></div>
-   <div class="scale">${[88,92,96,100,104,108].map(v=>`<span style="left:${(v-88)/20*100}%">${v}</span><i style="left:${(v-88)/20*100}%"></i>`).join('')}<div class="needle" data-x></div></div>
-   <input type="range" min="880" max="1080" value="880" data-s><div class="screen static" data-sc>Sólo ruido… mueve el dial.</div></div><div class="count" data-c>0/4 emisoras</div>`;
-  const found=new Set(), s=$('[data-s]',el);
-  s.oninput=()=>{ const f=s.value/10; $('[data-f]',el).textContent=f.toFixed(1)+' FM'; $('[data-x]',el).style.left=((f-88)/20*100)+'%';
-    const hit=St.find(x=>Math.abs(x[0]-f)<0.9), sc=$('[data-sc]',el);
-    if(hit){ sc.classList.toggle('static',hit[1]==='Interferencia'); sc.innerHTML=`<b>${hit[1]}</b><br>${hit[2]}`; $('[data-n]',el).textContent='● señal'; found.add(hit[0]); $('[data-c]',el).textContent=found.size+'/4 emisoras'; }
-    else { sc.classList.add('static'); sc.textContent='Sólo ruido… sigue buscando.'; $('[data-n]',el).textContent=''; } }; };
-function flips(el,C){ el.innerHTML=C.map(c=>`<div class="flip"><div class="fi"><div class="fa"><div>${c[0]}</div></div><div class="fb ${c[1]?'':'myth'}"><div class="lbl">${c[1]?'REALIDAD':'MITO'}</div><div class="small">${c[2]}</div></div></div></div>`).join('');
-  $$('.flip',el).forEach(f=>f.onclick=()=>f.classList.toggle('on')); }
-W.flips6=el=>flips(el,[["“Todo DJ de grime es productor.”",0,'No siempre. Algunos de los DJs más legendarios destacan sobre todo por su dominio de la mezcla y por saber dirigir una sesión.'],
-  ["“El DJ es el centro de atención del set.”",0,'No suele buscarlo. Su función es construir el espacio musical para que los MCs se expresen.'],
-  ["“El DJ lee a los MCs y anticipa sus movimientos.”",1,'Sabe cuándo cambiar el instrumental, cuándo mantenerlo y cuándo hacer un reload.']]);
-W.flips8=el=>flips(el,[["“Los MCs de grime inventan sus letras en el momento.”",0,'La mayoría tiene barras escritas y preparadas, que adapta a los instrumentales que van sonando.'],
-  ["“Usar letras escritas está mal visto.”",0,'Al contrario de ciertos prejuicios del freestyle, en grime es una práctica completamente habitual.'],
-  ["“La improvisación existe en el grime.”",1,'Sí, pero no consiste necesariamente en inventar una letra entera.']]);
-W.djset=el=>{
-  const M=[[1,'Entra el beat A. Un MC empieza sus barras.',[[0,16,'A']]],
-    [16,'Según el plan, toca cambiar… pero el MC está reventando. El DJ <b>mantiene</b> el beat.',[[16,24,'A']]],
-    [24,'La sala explota. <b>Pullup</b>: el DJ vuelve al principio del mismo beat.',[[24,40,'A']],24],
-    [40,'Termina el MC y la energía baja. El DJ <b>cambia</b> al beat B para el siguiente.',[[40,48,'B']]],
-    [48,'Tres MCs alrededor del micro, todos quieren el B. El DJ lo deja correr hasta el final.',[[48,64,'B']]]];
-  el.innerHTML=`<div class="plan card"><div class="lab"><span>El plan · cambio cada 16</span></div><div class="g p">${Array.from({length:64},(_,i)=>`<i class="${'ABCD'[Math.floor(i/16)]}"></i>`).join('')}</div>
-    <div class="lab"><span>Lo que pasó</span><span data-c></span></div><div class="g" data-g>${'<i></i>'.repeat(64)}</div>
-    <div class="moment"><div class="bar" data-b>—<small>barra</small></div><div data-t>Pulsa “Siguiente momento”.</div></div>
-    <div class="row" style="margin-top:10px"><button class="btn a" data-n>Siguiente momento ▸</button><button class="btn" data-r>↺</button></div></div>`;
-  const cells=$$('[data-g] i',el); let k=0;
-  const reset=()=>{ k=0; cells.forEach(c=>{c.className='';c.textContent='';}); $('[data-b]',el).innerHTML='—<small>barra</small>'; $('[data-t]',el).textContent='Pulsa “Siguiente momento”.'; $('[data-c]',el).textContent=''; $('[data-n]',el).disabled=false; };
-  $('[data-n]',el).onclick=()=>{ if(k>=M.length) return; const m=M[k]; cells.forEach(c=>c.classList.remove('now'));
-    m[2].forEach(([a,b,c])=>{ for(let i=a;i<b;i++) cells[i].className=c; }); if(m[3]!=null) cells[m[3]].textContent='↺';
-    cells[m[0]-1>=0?m[0]-1:0].classList.add('now');
-    $('[data-b]',el).innerHTML=`${m[0]}<small>barra</small>`; $('[data-t]',el).innerHTML=m[1]; $('[data-c]',el).textContent=`${k+1}/${M.length}`; k++;
-    if(k===M.length){ $('[data-n]',el).disabled=true; setTimeout(()=>{ $('[data-t]',el).innerHTML+=' <br><span class="hl">Plan: 4 beats. Realidad: 2 beats y un pullup.</span>'; },500); } };
-  $('[data-r]',el).onclick=reset; };
-W.train=el=>{ el.innerHTML=`<div class="train"><div class="rail"></div><div class="cars">${Array.from({length:24},(_,i)=>`<div class="car" style="background:${['#33d6ff','#ffb000','#ff3b3b','#3dff7a'][i%4]}">BEAT ${i%4+1}</div>`).join('')}</div><div class="rider" data-r style="left:-40px">🎤</div></div>
-  <div class="row"><button class="btn a" data-j>Subirse al tren</button><span class="small" data-t>El beat ya está sonando.</span></div>`;
-  let n=0; $('[data-j]',el).onclick=()=>{ n++; const r=$('[data-r]',el); r.style.left=(20+Math.random()*55)+'%';
-    $('[data-t]',el).textContent=n===1?'¡Dentro! No esperaste a que parara.':n===2?'El DJ ha cambiado de beat, pero sigues encima.':'Así funciona: el tren nunca se detiene.'; }; };
-W.mics=el=>{ el.innerHTML=`<div class="mics" data-m></div><div class="meter"><b data-e style="width:15%"></b></div><div class="row" style="justify-content:space-between"><button class="btn a" data-a>+ MC al micro</button><button class="btn" data-z>Reset</button></div><p class="small dim" data-t>DJ solo. Calentando.</p>`;
-  let n=0; const T=['DJ solo. Calentando.','Un MC se sube al beat.','Dos MCs: se pasan el micro.','Tres MCs: intercambian barras.','¡Varios MCs alrededor del micro! El momento de mayor energía.'];
-  const up=()=>{ $('[data-m]',el).innerHTML=Array.from({length:n},()=>'<span>🎤</span>').join(''); $('[data-e]',el).style.width=(15+n*21)+'%'; $('[data-t]',el).textContent=T[n]; };
-  $('[data-a]',el).onclick=()=>{ if(n<4){ n++; up(); if(n===4) toast('¡La sala explota!'); } }; $('[data-z]',el).onclick=()=>{ n=0; up(); }; };
-W.impro=el=>{ const I=['Improvisar un flow','Cambiar palabras','Modificar la estructura de una intervención','Crear un hook sobre la marcha','Adaptar una barra a una situación concreta'];
-  el.innerHTML=`<div class="chips">${I.map((x,i)=>`<button class="chip" data-i="${i}">?</button>`).join('')}</div><div class="count" data-c>0/5</div>`;
-  let n=0; $$('.chip',el).forEach(b=>b.onclick=()=>{ if(b.classList.contains('ok')) return; b.textContent=I[b.dataset.i]; b.classList.add('ok'); n++; $('[data-c]',el).textContent=n+'/5'; }); };
-/* visualización: el mismo hook repetido 4 veces y cómo se suma la sala */
-function hookViz(box, mc, resp, note){
-  const P=[0,3,8,16], SZ=['.8rem','.95rem','1.2rem','1.5rem'], ST=['Solo el MC','Algunos lo pillan','Media sala','Toda la sala'];
-  box.innerHTML=`<div class="viz">${P.map((n,i)=>`<div class="vrow"><div class="vn"><b>${i+1}ª</b>vez</div><div><span class="mcb">${mc}</span>
-    <div class="crowd">${n?`<span class="ppl">${'👤'.repeat(n)}</span><span class="cb" style="font-size:${SZ[i]}">${resp}</span>`:'<span class="dim small">(la sala escucha)</span>'}</div></div></div>`).join('')}
-    <div class="vfoot">ENERGÍA<div class="meter"><b data-e style="width:0"></b></div><span data-s></span></div></div><div class="vnote" data-n></div>`;
-  const rows=$$('.vrow',box); clearTimeout(box._t); let i=0;
-  const step=()=>{ rows[i].classList.add('on'); $('[data-e]',box).style.width=(15+i*28)+'%'; $('[data-s]',box).textContent=ST[i]; i++;
-    if(i<4) box._t=setTimeout(step,850); else { $('[data-n]',box).innerHTML=note; } };
-  step();
+// Para probar otra dirección sin tocar el código: tusitio.github.io/?video=https://...
+const qv = new URLSearchParams(location.search).get('video');
+if (qv && /^https:\/\//.test(qv)) SET.video = qv;
+
+const $ = id => document.getElementById(id);
+const aud = $('aud'), cv = $('cv'), ctx2 = cv.getContext('2d');
+aud.src = SET.video;
+$('setName').textContent = SET.name;
+
+let dur = 0, tIn = 0, tOut = SET.defaultClip, exporting = false, stopAt = null, rec = null, outBlob = null, outExt = 'mp4', cancelled = false;
+let actx = null, gain = null, recDest = null;
+
+const fmt = (s, dec) => { s = Math.max(0, s); const m = Math.floor(s / 60), r = s - m * 60; const h = Math.floor(m / 60); const sec = dec ? r.toFixed(1).padStart(4, '0') : String(Math.floor(r)).padStart(2, '0'); return h ? `${h}:${String(m % 60).padStart(2, '0')}:${sec}` : `${m}:${sec}`; };
+const parse = str => { const p = String(str).trim().replace(',', '.').split(':').map(Number); if (p.some(isNaN)) return null; return p.reduce((a, v) => a * 60 + v, 0); };
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+/* ---------- dibujo: el mismo para la vista previa y para el clip ---------- */
+function draw() {
+  const v = aud;
+  if (!v.videoWidth || v.readyState < 2) { ctx2.fillStyle = '#05061a'; ctx2.fillRect(0, 0, cv.width, cv.height); return; }
+  const k = Math.max(cv.width / v.videoWidth, cv.height / v.videoHeight), sw = cv.width / k, sh = cv.height / k;
+  ctx2.drawImage(v, (v.videoWidth - sw) / 2, (v.videoHeight - sh) / 2, sw, sh, 0, 0, cv.width, cv.height);
 }
-W.hookex=el=>{ const E=[
-   ['Una palabra','¡Barna!','¡BARNA!','Una sola palabra. No hay nada que aprender: a la segunda vez ya la grita todo el mundo.'],
-   ['Una frase','Fuego en la sala','¡FUEGO EN LA SALA!','Corta y con ritmo. El público la memoriza y empieza a decirla con el MC.'],
-   ['Una consigna','¿Quién está en el aire?','¡NOSOTROS!','Pregunta-respuesta: el MC lanza, la sala contesta. El público pasa a formar parte del hook.'],
-   ['Sonidos','Brrr… ¡oi! ¡oi!','¡OI! ¡OI!','Ni siquiera hacen falta palabras: un sonido repetido en el momento justo también es un hook.']];
-  el.innerHTML=`<div class="hx">${E.map((e,i)=>`<button data-i="${i}"><div class="ty">${e[0]}</div><div class="ht">${e[1]}</div></button>`).join('')}</div><div data-v><div class="reveal">Elige uno de los cuatro.</div></div>`;
-  $$('.hx button',el).forEach(b=>b.onclick=()=>{ const e=E[b.dataset.i]; $$('.hx button',el).forEach(x=>x.classList.toggle('on',x===b)); hookViz($('[data-v]',el),e[1],e[2],`<b>${e[0]}.</b> ${e[3]}`); }); };
-W.hook=el=>{ const words=['¿Quién','está','en el aire?','¡Oi!','Barna','fuego','arriba','sala','¡Brap!','nosotros','dale','otra vez'];
-  el.innerHTML=`<div class="card"><div class="chips">${words.map(w=>`<button class="chip">${w}</button>`).join('')}</div>
-   <input class="txt" data-i placeholder="…o escribe tu propio hook" maxlength="40"><div class="row" style="margin-top:8px"><button class="btn a" data-go>¡Lánzalo!</button><button class="btn" data-cl>Borrar</button></div><div data-v></div></div>`;
-  const inp=$('[data-i]',el); $$('.chip',el).forEach(c=>c.onclick=()=>{ if(inp.value.trim().split(/\s+/).filter(Boolean).length>=6) return toast('Mejor corto'); inp.value=(inp.value.trim()+' '+c.textContent).trim(); });
-  $('[data-cl]',el).onclick=()=>{ inp.value=''; $('[data-v]',el).innerHTML=''; };
-  $('[data-go]',el).onclick=()=>{ const h=inp.value.trim(); if(!h) return toast('Escribe o elige algo'); const n=h.split(/\s+/).length;
-    if(n<=5) hookViz($('[data-v]',el),h,h.toUpperCase(),'<b>Funciona.</b> Es corto y repetible: la sala se lo aprende enseguida.');
-    else { const v=$('[data-v]',el); hookViz(v,h,'¿…?','<b>Demasiado largo.</b> La sala no consigue seguirte. Prueba con 1-4 palabras.'); } }; };
-W.hookfn=el=>{ const F=[['Llenar espacios','entre las barras'],['Mantener la energía','de la sesión'],['Generar expectación','antes de algo grande'],['Preparar la entrada','de una intervención más desarrollada'],['Hacer participar','al público, que lo reconoce y lo repite'],['Recuperar el aire','pensar la siguiente intervención y preparar el próximo drop']];
-  el.innerHTML=`<div class="chips">${F.map((f,i)=>`<button class="chip" data-i="${i}">${i+1}</button>`).join('')}</div><div class="reveal" data-r>Toca un número.</div>`;
-  $$('.chip',el).forEach(b=>b.onclick=()=>{ const f=F[b.dataset.i]; b.classList.add('ok'); b.textContent=f[0]; $('[data-r]',el).innerHTML=`<b>${f[0]}</b> ${f[1]}.`; }); };
-W.sea=el=>{ const SG=['El instrumental quita elementos (el bajo, la batería)','Una transición o un filtro que cambia el color','Redobles, algo que “sube”','Una pequeña pausa… silencio'];
-  el.innerHTML=`<div class="sea" data-sea><div class="water" data-w style="height:60%"></div><div class="wave">¡DROP!</div></div><input type="range" min="0" max="100" value="0" data-s><div class="signals">${SG.map(s=>`<div>${s}</div>`).join('')}</div>`;
-  const s=$('[data-s]',el); s.oninput=()=>{ const v=+s.value; $('[data-w]',el).style.height=(60-v*0.55)+'%'; $$('.signals div',el).forEach((d,i)=>d.classList.toggle('on',v>=(i+1)*22));
-    const hit=v>=99; $('[data-sea]',el).classList.toggle('hit',hit); if(hit&&!el._t){ el._t=1; toast('¡Ahí entras!'); } if(!hit) el._t=0; }; };
-W.pullup=el=>{ const Q=[['Kobra suelta un punchline. Los otros dos MCs gritan "¡Pull up!" y le hacen señas al DJ.','mcs'],
-  ['Nadie dice nada, pero el DJ, con una sonrisa, rebobina el tema él solo.','dj'],
-  ['La sala grita, los MCs saltan y el DJ ya tiene la mano en el plato: todos a la vez.','general'],
-  ['En una sesión de radio, un MC veterano interrumpe para pedir que lo vuelvan a poner por el chaval nuevo.','mcs']];
-  let i=0,ok=0; const L={general:'General',mcs:'De MCs',dj:'De DJ'};
-  const show=()=>{ if(i>=Q.length){ el.innerHTML=`<div class="card"><b>${ok}/${Q.length}</b> ${ok===Q.length?'— lo entiendes perfectamente.':'— repasa los tres tipos de arriba.'} <button class="btn" data-rr style="margin-left:6px">Repetir</button></div>`; $('[data-rr]',el).onclick=()=>{i=0;ok=0;show();}; return; }
-    el.innerHTML=`<div class="card"><span class="tape">Caso ${i+1}/${Q.length}</span><p>${Q[i][0]}</p><div class="row">${Object.entries(L).map(([k,l])=>`<button class="btn" data-k="${k}">${l}</button>`).join('')}</div><div class="reveal" data-r style="margin-top:10px">¿Qué pullup es?</div></div>`;
-    $$('[data-k]',el).forEach(b=>b.onclick=()=>{ if(el._lock) return; el._lock=1; const r=b.dataset.k===Q[i][1]; if(r) ok++; b.style.background=r?'#1f6b38':'#6b1f1f';
-      $('[data-r]',el).innerHTML=(r?'¡Correcto! ':'Era <b>'+L[Q[i][1]]+'</b>. ')+'<button class="btn" data-nx style="margin-left:6px">Siguiente</button>'; $('[data-nx]',el).onclick=()=>{ el._lock=0; i++; show(); }; }); }; show(); };
-W.eq=el=>{ el.innerHTML=`<div class="eq"><button class="t">Espacio</button><span class="op">+</span><button class="t">DJs</button><span class="op">+</span><button class="t">MCs</button><span class="op">=</span><span class="t" data-r>?</span></div>`;
-  const ts=$$('button.t',el); ts.forEach(t=>t.onclick=()=>{ t.classList.add('on'); if(ts.every(x=>x.classList.contains('on'))){ const r=$('[data-r]',el); r.textContent='SET'; r.classList.add('on'); toast('Set definido'); } }); };
-W.train13=el=>{ const T=['Practicar a menudo','Probar instrumentales diferentes','Controlar la respiración','Desarrollar el flow','Participar en sesiones con otros artistas','Aprender de los errores'];
-  el.innerHTML=T.map(t=>`<button class="check"><i></i>${t}</button>`).join('')+'<div class="meter"><b data-m style="width:0"></b></div><div class="count" data-c>0/6</div>';
-  $$('.check',el).forEach(c=>c.onclick=()=>{ c.classList.toggle('on'); $('i',c).textContent=c.classList.contains('on')?'✓':''; const n=$$('.check.on',el).length; $('[data-m]',el).style.width=(n/6*100)+'%'; $('[data-c]',el).textContent=n+'/6'+(n===6?' — ahora, a repetirlo muchas veces':''); }); };
-W.values=el=>{ const V=[['Seguidores',0],['Personalidad',1],['Reproducciones',0],['Dedicación',1],['Posición comercial',0],['Respeto por la cultura',1],['Aportar algo a la sesión',1]];
-  el.innerHTML=`<div class="chips">${V.map((v,i)=>`<button class="chip" data-i="${i}">${v[0]}</button>`).join('')}</div><div class="reveal" data-r>La valía en el grime no la determinan los números.</div>`;
-  let good=0; $$('.chip',el).forEach(b=>b.onclick=()=>{ const v=V[b.dataset.i]; if(b.classList.contains('ok')||b.classList.contains('no')) return;
-    b.classList.add(v[1]?'ok':'no'); if(v[1]) good++; $('[data-r]',el).innerHTML=v[1]?`<b>${v[0]}</b>: sí, esto cuenta.${good===4?' <b class="hl">Las has encontrado todas.</b>':''}`:`<b>${v[0]}</b>: en un set en directo, esto no debería decidir nada.`; }); };
 
-
-/* ============ GLOSARIO ============ */
-const G=[
- ['Set','sesión','Sesión en la que un DJ pincha y varios MCs van entrando y saliendo sobre los instrumentales. Se define por el espacio, los DJs y los MCs.'],
- ['Radio set','set de radio','Set emitido desde una emisora. Es donde mejor se ve la naturaleza colectiva y espontánea del grime.'],
- ['Radio pirata','pirate radio','Emisoras sin licencia, a menudo desde azoteas y pisos. Fueron clave para que DJs y MCs llegaran al público sin la industria.'],
- ['Residencia','residency','Sesión periódica que un DJ tiene en una emisora, donde invita a distintos MCs.'],
- ['MC','Master of Ceremonies','En grime no solo rapea: es personalidad, energía y conexión con el público.'],
- ['Riddim','instrumental','El instrumental o beat. Palabra que viene de la cultura jamaicana.'],
- ['Bars','barras','Las líneas de una letra. "Tener barras" es tener letras con impacto.'],
- ['Hook','gancho','Frase o fragmento corto y pegadizo que se repite para que el público participe.'],
- ['Chant','consigna','Frase corta para corear, a menudo en formato pregunta-respuesta.'],
- ['Call and response','pregunta-respuesta','El MC lanza una frase y el público u otros MCs responden.'],
- ['Ad-libs','apoyos','Gritos, interjecciones y palabras sueltas que acompañan las barras propias o las de otro MC.'],
- ['Flow','flow','Cómo colocas las sílabas y los acentos sobre el ritmo.'],
- ['Off the dome','improvisado','Improvisar en el momento. En grime convive con las barras escritas, que son lo habitual.'],
- ['Drop','caída','Momento de máximo impacto de un instrumental, cuando entra con toda su fuerza.'],
- ['Pullup','pull up · rewind · reload','El DJ devuelve el instrumental a un punto anterior para repetir un momento que ha provocado una reacción fuerte. Es una forma de reconocimiento.'],
- ['Wheel up','¡rueda atrás!','Lo que se grita para pedir un pullup.'],
- ['Shelling','reventar','Cuando la sala explota con una intervención.'],
- ['Trading bars','intercambiar barras','Alternarse el micro entre MCs, enlazando sin dejar caer la energía.'],
- ['Pass the mic','pasar el micro','Ceder el espacio vocal a otro MC.'],
- ['Clash','enfrentamiento','Duelo entre MCs o crews por turnos.'],
- ['Crew','crew','Grupo de MCs y DJs que actúan juntos.'],
- ['Big up','saludo','Dar reconocimiento a alguien: "big up al DJ".'],
- ['Dubplate','dubplate','Versión exclusiva de un tema para un DJ o sound concreto; también un tema que aún no ha salido y solo suena en sets.'],
- ['Soundsystem','sound system','Cultura jamaicana de equipos de sonido, selectores y MCs que convierten la música en un acontecimiento colectivo.'],
- ['BPM','pulsos por minuto','Velocidad del instrumental. El grime gira en torno a 140 (o su mitad, 70).'],
- ['UK garage','UK garage','Género británico del que sale buena parte de la primera generación del grime.'],
- ['2-step','2-step','Variante del garage con ritmos rotos y saltarines.'],
- ['Deep dubstep','deep dubstep','Dubstep oscuro y espacioso, de bajos profundos, que hoy puede sonar en un set de grime.']];
-const glist=$('#glist');
-function renderG(q=''){ q=q.trim().toLowerCase(); const it=G.filter(g=>!q||(g[0]+' '+g[1]+' '+g[2]).toLowerCase().includes(q));
-  glist.innerHTML=it.map(g=>`<div class="gterm ${q&&g[0].toLowerCase()===q?'hit':''}"><h4>${g[0]}<em>${g[1]}</em></h4><p>${g[2]}</p></div>`).join('')||'<p class="dim">Nada encontrado.</p>'; }
-function openG(q=''){ $('#gq').value=q; renderG(q); $('#drawer').classList.add('open'); }
-renderG(); $('#gq').oninput=e=>renderG(e.target.value); $('#gbtn').onclick=()=>openG();
-$('#gclose').onclick=()=>$('#drawer').classList.remove('open'); $('#drawer').onclick=e=>{ if(e.target.id==='drawer') $('#drawer').classList.remove('open'); };
-document.addEventListener('click',e=>{ const t=e.target.closest('.term'); if(t) openG(t.dataset.t||t.textContent); });
-
-/* ============ MOTOR DEL SLIDESHOW ============ */
-const stage=$('#stage'); let cur=0, max=0;
-try{ const s=JSON.parse(localStorage.getItem('barna-grime')||'{}'); max=s.max||0; }catch(e){}
-const save=()=>{ try{ localStorage.setItem('barna-grime',JSON.stringify({max})); }catch(e){} };
-S.forEach((s,i)=>{ const d=document.createElement('section'); d.className='slide'; d.innerHTML=`<div class="inner">${s.html}</div>`; stage.appendChild(d); s.el=d;
-  $$('[data-w]',d).forEach(w=>W[w.dataset.w]&&W[w.dataset.w](w)); });
-$('#segs').innerHTML=CH.slice(1).map(()=>'<i><b></b></i>').join('');
-const frags=i=>$$('.f',S[i].el);
-function render(){
-  S.forEach((s,i)=>{ s.el.classList.toggle('on',i===cur); s.el.classList.toggle('out',i<cur); });
-  const ch=S[cur].ch; $('#chap').textContent=ch?String(ch).padStart(2,'0')+' · '+CH[ch]:'';
-  $$('#segs i').forEach((e,i)=>{ const c=i+1, sl=S.map((s,k)=>[s,k]).filter(([s])=>s.ch===c), done=sl.filter(([s,k])=>k<cur||(k===cur&&!frags(k).some(f=>!f.classList.contains('v')))).length;
-    e.querySelector('b').style.width=(done/sl.length*100)+'%'; e.classList.toggle('cur',c===ch); });
-  const fs=frags(cur), left=fs.filter(f=>!f.classList.contains('v')).length, nx=$('#next');
-  $('#dots').innerHTML=fs.length?fs.map(f=>`<i class="${f.classList.contains('v')?'v':''}"></i>`).join(''):'';
-  nx.classList.toggle('next',!left);
-  $('#nextl').textContent= left? (cur===0&&fs.filter(f=>f.classList.contains('v')).length===0?'Empezar':'Descubrir') : cur===S.length-1?'Fin':(S[cur+1].ch!==ch?'Cap. '+S[cur+1].ch+' ▸':'Siguiente ▸');
-  nx.disabled = !left && cur===S.length-1; $('#prev').disabled=cur===0;
-  if(cur>max){ max=cur; save(); }
+function loop() {
+  draw(); ui();
+  if (stopAt !== null && aud.currentTime >= stopAt) finishSegment();
+  requestAnimationFrame(loop);
 }
-function next(){ const f=frags(cur).find(f=>!f.classList.contains('v'));
-  if(f){ f.classList.add('v'); setTimeout(()=>f.scrollIntoView({behavior:'smooth',block:'nearest'}),60); render(); return; }
-  if(cur<S.length-1) go(cur+1); }
-function prev(){ if(cur>0) go(cur-1); }
-function go(i,revealAll){ cur=i; if(revealAll||i<max) frags(i).forEach(f=>f.classList.add('v')); S[i].el.scrollTop=0; render(); }
-window.go=go;
-function openIdx(){ const reachedCh=S[max].ch; $('#idxl').innerHTML=CH.map((c,i)=>{ if(i===0) return ''; const first=S.findIndex(s=>s.ch===i); const lock=i>reachedCh;
-  return `<a href="#" data-s="${first}" class="${lock?'lock':''}"><span class="n">${String(i).padStart(2,'0')}</span><span class="t">${c}</span><span class="s">${lock?'🔒':i<reachedCh?'✓':'en curso'}</span></a>`; }).join('');
-  $$('#idxl a').forEach(a=>a.onclick=e=>{ e.preventDefault(); $('#idx').classList.remove('open'); go(+a.dataset.s); }); $('#idx').classList.add('open'); }
-window.openIdx=openIdx;
-$('#next').onclick=next; $('#prev').onclick=prev; $('#index').onclick=openIdx;
-$('#idxc').onclick=()=>$('#idx').classList.remove('open'); $('#idx').onclick=e=>{ if(e.target.id==='idx') $('#idx').classList.remove('open'); };
-addEventListener('keydown',e=>{ if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); next(); } if(e.key==='ArrowLeft') prev(); });
-/* swipe (ignora gestos sobre controles) */
-let sx=null,sy=0; stage.addEventListener('touchstart',e=>{ if(e.target.closest('input,button,.flip')) { sx=null; return; } sx=e.touches[0].clientX; sy=e.touches[0].clientY; },{passive:true});
-stage.addEventListener('touchend',e=>{ if(sx===null) return; const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy; if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){ dx<0?next():prev(); } sx=null; });
-render();
+
+function ensureAudioGraph() {
+  if (actx) { if (actx.state === 'suspended') actx.resume(); return; }
+  try {
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    const src = actx.createMediaElementSource(aud);
+    gain = actx.createGain(); src.connect(gain); gain.connect(actx.destination);
+    recDest = actx.createMediaStreamDestination(); gain.connect(recDest);
+  } catch (e) { actx = null; }
+}
+async function seekAll(t) {
+  await new Promise(r => { const done = () => { aud.removeEventListener('seeked', done); r(); }; aud.addEventListener('seeked', done); aud.currentTime = t; setTimeout(done, 3000); });
+  draw();
+}
+async function play() { ensureAudioGraph(); try { await aud.play(); } catch (e) { return; } $('bigPlay').style.display = 'none'; }
+function pause() { aud.pause(); stopAt = null; }
+function toggle() { if (exporting) return; aud.paused ? play() : pause(); }
+
+/* ---------- interfaz ---------- */
+function ui() {
+  if (!dur) return;
+  const t = aud.currentTime;
+  $('clock').textContent = `${fmt(t)} / ${fmt(dur)}`;
+  $('ph').style.left = (t / dur * 100) + '%';
+  $('playBtn').textContent = aud.paused ? '▶ Play' : '❚❚ Pausa';
+}
+function setRange(a, b, from) {
+  a = clamp(a, 0, dur); b = clamp(b, 0, dur);
+  if (from === 'in' && b - a < SET.minClip) b = Math.min(dur, a + SET.minClip);
+  if (from === 'out' && b - a < SET.minClip) a = Math.max(0, b - SET.minClip);
+  if (from === 'in' && b - a > SET.maxClip) b = a + SET.maxClip;
+  if (from === 'out' && b - a > SET.maxClip) a = b - SET.maxClip;
+  tIn = a; tOut = b;
+  $('sel').style.left = (a / dur * 100) + '%'; $('sel').style.width = ((b - a) / dur * 100) + '%';
+  $('hIn').style.left = (a / dur * 100) + '%'; $('hOut').style.left = (b / dur * 100) + '%';
+  if (document.activeElement !== $('inT')) $('inT').value = fmt(a, 1);
+  if (document.activeElement !== $('outT')) $('outT').value = fmt(b, 1);
+  $('lenTxt').textContent = (b - a).toFixed(1).replace('.', ',') + ' s';
+  $('lenWarn').textContent = (b - a) >= SET.maxClip - 0.05 ? `máx. ${SET.maxClip} s` : '';
+  try { localStorage.setItem('bg-range', JSON.stringify([a, b])); } catch (e) {}
+}
+function ticks() { const n = window.innerWidth < 520 ? 3 : 5; $('ticks').innerHTML = Array.from({ length: n }, (_, i) => `<span>${fmt(dur * i / (n - 1))}</span>`).join(''); }
+
+aud.addEventListener('loadedmetadata', () => {
+  dur = aud.duration;
+  let r = null; try { r = JSON.parse(localStorage.getItem('bg-range')); } catch (e) {}
+  if (r && r[1] <= dur && r[1] > r[0]) setRange(r[0], r[1]); else setRange(0, Math.min(SET.defaultClip, dur), 'in');
+  ticks(); seekAll(0);
+});
+aud.addEventListener('ended', pause);
+aud.addEventListener('canplay', () => { if ($('stageMsg').dataset.err !== '1') $('stageMsg').textContent = ''; });
+aud.addEventListener('waiting', () => { if (!exporting) $('stageMsg').textContent = 'Cargando…'; });
+aud.addEventListener('playing', () => { if ($('stageMsg').dataset.err !== '1') $('stageMsg').textContent = ''; });
+aud.addEventListener('error', () => {
+  $('stageMsg').dataset.err = '1';
+  $('stageMsg').textContent = 'No se pudo cargar el vídeo del set. Revisa la dirección en SET.video y que el bucket tenga CORS activado para esta web.';
+  $('exportBtn').disabled = true;
+});
+window.addEventListener('resize', () => dur && ticks());
+
+$('playBtn').onclick = toggle; $('bigPlay').onclick = toggle; cv.onclick = toggle;
+document.querySelectorAll('[data-skip]').forEach(b => b.onclick = async () => { if (exporting) return; const p = !aud.paused; await seekAll(clamp(aud.currentTime + +b.dataset.skip, 0, dur)); if (p && aud.paused) play(); });
+document.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { const d = +b.dataset.d; b.dataset.n === 'in' ? setRange(tIn + d, tOut, 'in') : setRange(tIn, tOut + d, 'out'); });
+$('markIn').onclick = () => setRange(aud.currentTime, Math.max(tOut, aud.currentTime + SET.minClip), 'in');
+$('markOut').onclick = () => setRange(Math.min(tIn, aud.currentTime - SET.minClip), aud.currentTime, 'out');
+for (const [id, n] of [['inT', 'in'], ['outT', 'out']]) {
+  $(id).addEventListener('change', e => { const v = parse(e.target.value); if (v === null) return setRange(tIn, tOut); n === 'in' ? setRange(v, tOut, 'in') : setRange(tIn, v, 'out'); });
+  $(id).addEventListener('blur', () => setRange(tIn, tOut));
+}
+$('previewSel').onclick = async () => { if (exporting) return; await seekAll(tIn); stopAt = tOut; play(); };
+
+/* timeline: clic = saltar, arrastrar asas = mover inicio/final, arrastrar selección = moverla entera */
+let drag = null;
+const tAt = e => { const r = $('tl').getBoundingClientRect(); return clamp((e.clientX - r.left) / r.width, 0, 1) * dur; };
+$('tl').addEventListener('pointerdown', e => {
+  if (!dur || exporting) return;
+  const t = tAt(e);
+  if (e.target === $('hIn')) drag = { k: 'in' };
+  else if (e.target === $('hOut')) drag = { k: 'out' };
+  else if (e.target === $('sel')) drag = { k: 'move', off: t - tIn, len: tOut - tIn, t0: t };
+  else { drag = null; seekAll(t); return; }
+  $('tl').setPointerCapture(e.pointerId);
+});
+$('tl').addEventListener('pointermove', e => {
+  if (!drag) return; const t = tAt(e);
+  if (drag.k === 'in') setRange(t, tOut, 'in');
+  else if (drag.k === 'out') setRange(tIn, t, 'out');
+  else { const a = clamp(t - drag.off, 0, dur - drag.len); setRange(a, a + drag.len); drag.moved = true; }
+});
+$('tl').addEventListener('pointerup', e => { if (drag && drag.k === 'move' && !drag.moved) seekAll(tAt(e)); drag = null; });
+$('tl').addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); seekAll(clamp(aud.currentTime + (e.key === 'ArrowLeft' ? -5 : 5), 0, dur)); } });
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space' && e.target === document.body) { e.preventDefault(); toggle(); }
+  if (e.key === 'i' || e.key === 'I') $('markIn').click();
+  if (e.key === 'o' || e.key === 'O') $('markOut').click();
+});
+
+/* ---------- exportar: se graba el lienzo + el audio en tiempo real ---------- */
+function pickMime() {
+  // H.264 primero (lo que piden Instagram/TikTok); AAC si el navegador lo tiene, si no Opus
+  const list = ['video/mp4;codecs=avc1.640028,mp4a.40.2', 'video/mp4;codecs=avc1.4d0028,mp4a.40.2', 'video/mp4;codecs=avc1,mp4a.40.2', 'video/mp4;codecs=avc1,opus', 'video/webm;codecs=h264,opus', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
+  return list.find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m)) || '';
+}
+function setExporting(on) {
+  exporting = on;
+  document.querySelectorAll('.side .btn:not(#cancelBtn), .side input').forEach(el => el.disabled = on);
+  $('prog').style.display = on ? 'block' : 'none';
+  $('recBadge').style.display = on ? 'block' : 'none';
+}
+async function exportClip() {
+  if (!window.MediaRecorder || !cv.captureStream) { $('saveMsg').textContent = ''; $('progTxt').textContent = 'Este navegador no puede crear clips. Prueba con Chrome o Safari actualizados.'; $('prog').style.display = 'block'; return; }
+  ensureAudioGraph();
+  if (gain) gain.gain.setValueAtTime(0, actx.currentTime);
+  aud.play().then(() => { if (!exporting || aud.currentTime < tIn - 0.5) aud.pause(); }).catch(() => {}); // desbloquea el audio en iOS con el propio clic
+  pause(); cancelled = false; $('out').style.display = 'none';
+  setExporting(true); $('progTxt').textContent = 'Preparando…'; $('barFill').style.width = '0';
+  cv.width = 1080; cv.height = 1920;
+  await seekAll(tIn);
+  const mime = pickMime(); outExt = mime.includes('mp4') ? 'mp4' : 'webm';
+  let stream;
+  try { stream = cv.captureStream(30); cv.getContext('2d').getImageData(0, 0, 1, 1); }
+  catch (e) { cv.width = 540; cv.height = 960; setExporting(false); $('prog').style.display = 'block'; $('progTxt').textContent = 'El servidor del vídeo no permite crear clips (falta CORS en el bucket).'; return; }
+  if (recDest) recDest.stream.getAudioTracks().forEach(t => stream.addTrack(t));
+  const chunks = [];
+  rec = new MediaRecorder(stream, { mimeType: mime || undefined, videoBitsPerSecond: 14000000, audioBitsPerSecond: 192000 });
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  const stopped = new Promise(r => rec.onstop = r);
+  const len = tOut - tIn;
+  if (gain) { const n = actx.currentTime; gain.gain.cancelScheduledValues(n); gain.gain.setValueAtTime(0, n); gain.gain.linearRampToValueAtTime(1, n + 0.15); gain.gain.setValueAtTime(1, n + Math.max(0.2, len - 0.3)); gain.gain.linearRampToValueAtTime(0, n + len); }
+  rec.start(1000);
+  stopAt = tOut;
+  await play();
+  if (aud.paused) { cancelled = true; rec.stop(); await stopped; cv.width = 540; cv.height = 960; setExporting(false); rec = null; $('prog').style.display = 'block'; $('progTxt').textContent = 'El navegador no dejó reproducir el audio. Pulsa Play una vez y vuelve a crear el clip.'; return; }
+  const tick = setInterval(() => { const p = clamp((aud.currentTime - tIn) / len, 0, 1); $('barFill').style.width = (p * 100) + '%'; $('progTxt').textContent = `Grabando ${fmt(aud.currentTime - tIn)} de ${fmt(len)}`; }, 200);
+  await stopped; clearInterval(tick);
+  if (gain) { gain.gain.cancelScheduledValues(actx.currentTime); gain.gain.setValueAtTime(1, actx.currentTime); }
+  cv.width = 540; cv.height = 960; draw();
+  setExporting(false); rec = null;
+  if (cancelled) return;
+  outBlob = new Blob(chunks, { type: mime || 'video/webm' });
+  const name = `${SET.file}_-_CLIP_${fmt(tIn).replace(/:/g, '-')}_a_${fmt(tOut).replace(/:/g, '-')}.${outExt}`;
+  $('outVid').src = URL.createObjectURL(outBlob);
+  $('outName').textContent = name; $('outName').dataset.n = name;
+  $('outInfo').textContent = `${len.toFixed(1).replace('.', ',')} s · ${(outBlob.size / 1048576).toFixed(1).replace('.', ',')} MB · ${outExt.toUpperCase()}`;
+  $('saveMsg').textContent = outExt === 'webm' ? 'Tu navegador solo graba en WebM. Para MP4, usa Chrome actualizado o Safari.' : '';
+  $('out').style.display = 'flex';
+}
+function finishSegment() {
+  stopAt = null; pause();
+  if (rec && rec.state !== 'inactive') rec.stop();
+}
+$('exportBtn').onclick = exportClip;
+$('cancelBtn').onclick = () => { cancelled = true; finishSegment(); };
+$('againBtn').onclick = () => { $('out').style.display = 'none'; };
+
+/* guardar: dentro de Claude con la capacidad de descargas; fuera, descarga normal o compartir en móvil */
+let downloads = null;
+if (window.claude && claude.use) claude.use('downloads').then(d => { downloads = d; }).catch(() => {});
+$('saveBtn').onclick = async () => {
+  if (!outBlob) return;
+  const name = $('outName').dataset.n;
+  if (downloads) {
+    try { await downloads.save({ filename: name, data: outBlob }); $('saveMsg').textContent = 'Clip guardado.'; }
+    catch (e) { $('saveMsg').textContent = e && e.code === 'declined' ? 'Descarga cancelada.' : 'No se pudo guardar aquí. Inténtalo de nuevo.'; }
+    return;
+  }
+  const file = new File([outBlob], name, { type: outBlob.type });
+  if (navigator.canShare && navigator.canShare({ files: [file] }) && /Mobi|iPhone|iPad|Android/.test(navigator.userAgent)) {
+    try { await navigator.share({ files: [file], title: 'Clip Barna Grime' }); return; } catch (e) { if (e.name === 'AbortError') return; }
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(outBlob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+};
+
+if (!SET.demo) $('demoNote').remove();
+requestAnimationFrame(loop);
+}
 </script>
-</body></html>
+</body>
+</html>
