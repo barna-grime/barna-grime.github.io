@@ -1,17 +1,25 @@
-# Barna Grime · Clips del set (demo)
+# Barna Grime · Clips del set
 
-Demo de la plataforma: ves el set en vertical, eliges un tramo (de 3 a 90 s) y el navegador lo exporta como clip 1080x1920 listo para Reels, Shorts y TikTok.
+Plataforma para ver el set completo de Barna Grime en el Apolo y llevarse cualquier momento como clip vertical (1080x1920, MP4) listo para Reels, Shorts y TikTok.
+
+## Cómo funciona
+- El visor reproduce la versión ligera (`BARNA_GRIME_APOLO_SET_PREVIEW.mp4`, 720p).
+- Al crear un clip, la página descarga solo ese tramo del original (`BARNA_GRIME_APOLO_SET_VERTICAL.mp4`, 1080p) y lo corta sin recodificar: calidad original, sincronía exacta y listo en segundos.
+- El clip empieza en el corte limpio más cercano (como mucho 1 s antes de lo marcado).
+- Los vídeos están en Cloudflare R2: https://pub-dd8dbcba190a4d8790c3b9fabbb9615c.r2.dev
 
 ## Publicar en GitHub Pages
-1. Crea un repositorio nuevo en GitHub y sube estos 5 archivos tal cual (index.html, mp4cut.js, logo.svg, BARNA_GRIME_APOLO_CLIP3.mp4, README.md).
-2. En el repositorio: Settings → Pages → Source: "Deploy from a branch" → rama `main`, carpeta `/ (root)` → Save.
+1. Sube estos 4 archivos a la raíz del repositorio: index.html, mp4cut.js, logo.svg, README.md.
+2. Settings → Pages → Source: "Deploy from a branch" → rama `main`, carpeta `/ (root)` → Save.
 3. En un par de minutos estará en `https://TUUSUARIO.github.io/NOMBRE-DEL-REPO/`.
 
-## Probarlo en local
-Abre una terminal en esta carpeta y ejecuta `python3 -m http.server`, luego entra en http://localhost:8000
-(abrir index.html con doble clic no funciona: el navegador bloquea el vídeo).
+## Requisito en R2: regla CORS
+En el bucket → Settings → CORS Policy, debe haber una regla que permita GET y HEAD desde el dominio de la web y exponga `Content-Range`, `Content-Length` y `Accept-Ranges`.
 
-## Notas
-- Funciona en cualquier navegador actual, también en iPhone. El clip sale siempre en MP4.
-- El clip se corta directamente del vídeo, sin recodificar: tarda segundos, mantiene la calidad original y el audio queda perfectamente sincronizado. Empieza en el corte limpio más cercano (como mucho 1 s antes de lo marcado).
-- En el móvil, "Guardar en el dispositivo" abre el menú de compartir para guardarlo en la galería.
+## Cambiar de set
+1. Exporta el nuevo set (vertical 1080x1920, H.264, un fotograma clave cada segundo, faststart) y su versión ligera.
+2. Súbelos al bucket con Cyberduck.
+3. En index.html, en el bloque `SET` del principio, cambia `name`, `file`, `preview` y `source`.
+
+## Probar sin tocar el código
+`https://TUUSUARIO.github.io/NOMBRE-DEL-REPO/?preview=URL_LIGERA&source=URL_ORIGINAL`

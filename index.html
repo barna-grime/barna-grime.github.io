@@ -138,7 +138,7 @@ h1{font:900 clamp(34px,4.6vw,52px)/1.02 'Big Shoulders Display',sans-serif;margi
           <div class="small" id="saveMsg" style="margin-top:8px"></div>
         </div>
       </div>
-      <p class="note" id="demoNote">Demo con un fragmento de 45 s del set del Apolo. La versión final tendrá el set completo.</p>
+      <p class="note" id="demoNote">Demo: aquí el “set” es tu clip 3 (45 s). Con el set completo exportado desde Resolve funciona igual.</p>
     </div>
   </div>
 </main>
@@ -156,18 +156,20 @@ h1{font:900 clamp(34px,4.6vw,52px)/1.02 'Big Shoulders Display',sans-serif;margi
 const SET = {
   name: 'Apolo · set completo',
   file: 'BARNA_GRIME_APOLO',
-  // Dirección pública del vídeo en Cloudflare R2 (o Bunny). El bucket necesita CORS para tu dominio de GitHub Pages.
-  video: 'BARNA_GRIME_APOLO_CLIP3.mp4',
+  // Direcciones públicas en Cloudflare R2. El bucket necesita CORS para tu dominio de GitHub Pages.
+  preview: 'https://pub-dd8dbcba190a4d8790c3b9fabbb9615c.r2.dev/BARNA_GRIME_APOLO_SET_PREVIEW.mp4',   // versión ligera: lo que se ve en el visor
+  source:  'https://pub-dd8dbcba190a4d8790c3b9fabbb9615c.r2.dev/BARNA_GRIME_APOLO_SET_VERTICAL.mp4',  // original 1080p: de aquí salen los clips
   minClip: 3, maxClip: 90, defaultClip: 30,
-  demo: true
+  demo: false
 };
-// Para probar otra dirección sin tocar el código: tusitio.github.io/?video=https://...
-const qv = new URLSearchParams(location.search).get('video');
-if (qv && /^https:\/\//.test(qv)) SET.video = qv;
+// Para probar otras direcciones sin tocar el código: tusitio.github.io/?preview=https://...&source=https://...
+const qs = new URLSearchParams(location.search);
+for (const k of ['preview', 'source']) { const v = qs.get(k); if (v && /^https:\/\//.test(v)) SET[k] = v; }
+if (!SET.source) SET.source = SET.preview;
 
 const $ = id => document.getElementById(id);
 const aud = $('aud'), cv = $('cv'), ctx2 = cv.getContext('2d');
-aud.src = SET.video;
+aud.src = SET.preview;
 $('setName').textContent = SET.name;
 
 let dur = 0, tIn = 0, tOut = SET.defaultClip, exporting = false, stopAt = null, rec = null, outBlob = null, outExt = 'mp4', cancelled = false;
@@ -246,7 +248,7 @@ aud.addEventListener('waiting', () => { if (!exporting) $('stageMsg').textConten
 aud.addEventListener('playing', () => { if ($('stageMsg').dataset.err !== '1') $('stageMsg').textContent = ''; });
 aud.addEventListener('error', () => {
   $('stageMsg').dataset.err = '1';
-  $('stageMsg').textContent = 'No se pudo cargar el vídeo del set. Revisa la dirección en SET.video y que el bucket tenga CORS activado para esta web.';
+  $('stageMsg').textContent = 'No se pudo cargar el vídeo del set. Revisa la dirección en SET.preview y que el bucket tenga CORS activado para esta web.';
   $('exportBtn').disabled = true;
 });
 window.addEventListener('resize', () => dur && ticks());
@@ -297,7 +299,7 @@ async function exportClip() {
   if (window.MP4Cut && window.fetch) {
     setExporting(true); $('progNote').style.display = 'none'; $('cancelBtn').style.display = 'none'; $('recBadge').style.display = 'none';
     try {
-      const r = await MP4Cut.cut(new URL(SET.video, location.href).href, tIn, tOut, (p, txt) => { $('barFill').style.width = (p * 100) + '%'; $('progTxt').textContent = p > 0 && p < 1 ? `${txt} ${Math.round(p * 100)} %` : txt; });
+      const r = await MP4Cut.cut(new URL(SET.source, location.href).href, tIn, tOut, (p, txt) => { $('barFill').style.width = (p * 100) + '%'; $('progTxt').textContent = p > 0 && p < 1 ? `${txt} ${Math.round(p * 100)} %` : txt; });
       setExporting(false);
       return showResult(r.blob, 'mp4', r.start, r.end);
     } catch (e) { console.warn('Corte directo no disponible, se graba en tiempo real:', e); setExporting(false); }
