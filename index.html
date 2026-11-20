@@ -47,11 +47,26 @@ h1{font:900 clamp(34px,4.6vw,52px)/1.02 'Big Shoulders Display',sans-serif;margi
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .btn.sm{min-height:36px;padding:0 10px;font-size:14px}
 .time{font-variant-numeric:tabular-nums;font-weight:600}
-.tl{position:relative;height:64px;margin:14px 0 6px;border-radius:10px;background:repeating-linear-gradient(90deg,#141a52 0 2px,transparent 2px 9px),#0a0d2c;cursor:pointer;touch-action:none;user-select:none}
-.sel{position:absolute;top:0;bottom:0;background:#ff6a1f33;border:2px solid var(--acc);border-radius:8px}
-.h{position:absolute;top:-6px;bottom:-6px;width:22px;margin-left:-11px;cursor:ew-resize;display:grid;place-items:center}
-.h::after{content:"";width:8px;height:100%;border-radius:4px;background:var(--acc);box-shadow:0 0 0 2px var(--bg)}
-.ph{position:absolute;top:-4px;bottom:-4px;width:2px;background:#fff;pointer-events:none;box-shadow:0 0 10px #fff}
+.tl{position:relative;height:56px;margin:14px 0 6px;border-radius:10px;background:repeating-linear-gradient(90deg,#141a52 0 2px,transparent 2px 9px),#0a0d2c;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.tl *{pointer-events:none}
+.sel{position:absolute;top:0;bottom:0;left:0;width:0;background:#ff6a1f33;border:2px solid var(--acc);border-radius:8px;will-change:left,width}
+.h{position:absolute;top:-6px;bottom:-6px;left:0;width:34px;margin-left:-17px;display:grid;place-items:center;will-change:left}
+.h::after{content:"";width:10px;height:100%;border-radius:5px;background:var(--acc);box-shadow:0 0 0 2px var(--bg)}
+.tl.dragging .h::after{background:#fff}
+.ph{position:absolute;top:-4px;bottom:-4px;left:0;width:2px;background:#fff;box-shadow:0 0 10px #fff;will-change:left}
+.zwin{position:absolute;top:2px;bottom:2px;border:1px dashed #ffffff55;border-radius:6px}
+.zhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px}
+.zhead .row{gap:6px;flex-wrap:nowrap}
+.zhead .time{min-width:52px;text-align:center}
+.zhead .btn.sm{min-width:44px;font-size:18px;padding:0}
+.tl.zoom{height:84px;margin-top:8px;background:#0a0d2c}
+.zt{position:absolute;inset:0}
+.zt i{position:absolute;bottom:0;width:1px;height:10px;background:#2c3690}
+.zt i.m{height:22px;background:#5562c4}
+.zt b{position:absolute;top:6px;font:500 11px/1 Inter,system-ui,sans-serif;color:var(--mute);transform:translateX(-50%);white-space:nowrap}
+.tl.zoom .sel{top:24px}
+.tl.zoom .h{top:20px}
+.tl.zoom .ph{top:20px}
 .ticks{display:flex;justify-content:space-between;color:var(--mute);font-size:13px}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
 .pt label{display:block;color:var(--mute);font-size:13px;margin-bottom:4px}
@@ -96,12 +111,24 @@ h1{font:900 clamp(34px,4.6vw,52px)/1.02 'Big Shoulders Display',sans-serif;margi
         <span class="time" id="clock">0:00 / 0:00</span>
       </div>
       <div class="tl" id="tl" tabindex="0" aria-label="Línea de tiempo del set">
+        <div class="zwin" id="zWin"></div>
         <div class="sel" id="sel"></div>
-        <div class="h" id="hIn" aria-label="Inicio"></div>
-        <div class="h" id="hOut" aria-label="Final"></div>
+        <div class="h" id="hIn"></div>
+        <div class="h" id="hOut"></div>
         <div class="ph" id="ph"></div>
       </div>
       <div class="ticks" id="ticks"></div>
+      <div class="zhead">
+        <span class="small">Vista ampliada</span>
+        <div class="row"><button class="btn sm" id="zOutBtn" aria-label="Alejar">−</button><span class="time" id="zLbl">1 min</span><button class="btn sm" id="zInBtn" aria-label="Acercar">+</button></div>
+      </div>
+      <div class="tl zoom" id="zl" aria-label="Vista ampliada de la selección">
+        <div class="zt" id="zTicks"></div>
+        <div class="sel" id="zSel"></div>
+        <div class="h" id="zHin"></div>
+        <div class="h" id="zHout"></div>
+        <div class="ph" id="zPh"></div>
+      </div>
       <div class="grid2">
         <div class="pt">
           <label for="inT">Desde</label>
@@ -212,12 +239,42 @@ function pause() { aud.pause(); stopAt = null; }
 function toggle() { if (exporting) return; aud.paused ? play() : pause(); }
 
 /* ---------- interfaz ---------- */
+let drag = null;
+const ZOOMS = [10, 20, 30, 60, 120, 300, 600];
+let zi = 3, z0 = 0, z1 = 60;
+const pct = (t, a, b) => ((t - a) / (b - a) * 100);
+function place(el, t, a, b) { const p = pct(t, a, b); el.style.left = p + '%'; el.style.visibility = (p < -1 || p > 101) ? 'hidden' : 'visible'; }
 function ui() {
   if (!dur) return;
   const t = aud.currentTime;
   $('clock').textContent = `${fmt(t)} / ${fmt(dur)}`;
-  $('ph').style.left = (t / dur * 100) + '%';
+  place($('ph'), t, 0, dur); place($('zPh'), t, z0, z1);
   $('playBtn').textContent = aud.paused ? '▶ Play' : '❚❚ Pausa';
+}
+/* ventana de la vista ampliada: centrada en la selección (no se mueve mientras arrastras) */
+function zoomWindow(force) {
+  if (!dur || (drag && !force)) return;
+  let w = Math.min(dur, Math.max(ZOOMS[zi], (tOut - tIn) * 1.25));
+  const c = (tIn + tOut) / 2;
+  z0 = clamp(c - w / 2, 0, Math.max(0, dur - w)); z1 = z0 + w;
+  $('zLbl').textContent = w >= 60 ? `${+(w / 60).toFixed(1)} min`.replace('.', ',') : `${Math.round(w)} s`;
+  const step = w <= 15 ? [1, 5] : w <= 40 ? [1, 5] : w <= 90 ? [5, 15] : w <= 200 ? [10, 30] : w <= 400 ? [30, 60] : [60, 120];
+  let html = '';
+  for (let t = Math.ceil(z0 / step[0]) * step[0]; t <= z1; t += step[0]) {
+    const major = Math.abs(t / step[1] - Math.round(t / step[1])) < 1e-6, p = pct(t, z0, z1);
+    html += `<i class="${major ? 'm' : ''}" style="left:${p}%"></i>`;
+    if (major && p > 4 && p < 96) html += `<b style="left:${p}%">${fmt(t)}</b>`;
+  }
+  $('zTicks').innerHTML = html;
+  const zw = $('zWin'); zw.style.left = pct(z0, 0, dur) + '%'; zw.style.width = Math.max(0.6, pct(z1, 0, dur) - pct(z0, 0, dur)) + '%';
+  drawSel(); ui();
+}
+function drawSel() {
+  $('sel').style.left = pct(tIn, 0, dur) + '%'; $('sel').style.width = pct(tOut, 0, dur) - pct(tIn, 0, dur) + '%';
+  place($('hIn'), tIn, 0, dur); place($('hOut'), tOut, 0, dur);
+  const a = clamp(pct(tIn, z0, z1), -2, 102), b = clamp(pct(tOut, z0, z1), -2, 102);
+  $('zSel').style.left = a + '%'; $('zSel').style.width = Math.max(0, b - a) + '%';
+  place($('zHin'), tIn, z0, z1); place($('zHout'), tOut, z0, z1);
 }
 function setRange(a, b, from) {
   a = clamp(a, 0, dur); b = clamp(b, 0, dur);
@@ -226,14 +283,14 @@ function setRange(a, b, from) {
   if (from === 'in' && b - a > SET.maxClip) b = a + SET.maxClip;
   if (from === 'out' && b - a > SET.maxClip) a = b - SET.maxClip;
   tIn = a; tOut = b;
-  $('sel').style.left = (a / dur * 100) + '%'; $('sel').style.width = ((b - a) / dur * 100) + '%';
-  $('hIn').style.left = (a / dur * 100) + '%'; $('hOut').style.left = (b / dur * 100) + '%';
+  if (drag) drawSel(); else zoomWindow();
   if (document.activeElement !== $('inT')) $('inT').value = fmt(a, 1);
   if (document.activeElement !== $('outT')) $('outT').value = fmt(b, 1);
   $('lenTxt').textContent = (b - a).toFixed(1).replace('.', ',') + ' s';
   $('lenWarn').textContent = (b - a) >= SET.maxClip - 0.05 ? `máx. ${SET.maxClip} s` : '';
-  try { localStorage.setItem('bg-range', JSON.stringify([a, b])); } catch (e) {}
+  if (!drag) saveRange();
 }
+function saveRange() { try { localStorage.setItem('bg-range', JSON.stringify([tIn, tOut])); } catch (e) {} }
 function ticks() { const n = window.innerWidth < 520 ? 3 : 5; $('ticks').innerHTML = Array.from({ length: n }, (_, i) => `<span>${fmt(dur * i / (n - 1))}</span>`).join(''); }
 
 aud.addEventListener('loadedmetadata', () => {
@@ -255,7 +312,7 @@ aud.addEventListener('error', () => {
   $('stageMsg').textContent = 'No se pudo cargar el vídeo del set: la dirección no responde. Revisa que SET.preview coincide con la Public URL del archivo en R2.';
   $('exportBtn').disabled = true;
 });
-window.addEventListener('resize', () => dur && ticks());
+window.addEventListener('resize', () => { if (dur) { ticks(); zoomWindow(); } });
 
 $('playBtn').onclick = toggle; $('bigPlay').onclick = toggle; aud.onclick = toggle;
 document.querySelectorAll('[data-skip]').forEach(b => b.onclick = async () => { if (exporting) return; const p = !aud.paused; await seekAll(clamp(aud.currentTime + +b.dataset.skip, 0, dur)); if (p && aud.paused) play(); });
@@ -268,25 +325,58 @@ for (const [id, n] of [['inT', 'in'], ['outT', 'out']]) {
 }
 $('previewSel').onclick = async () => { if (exporting) return; await seekAll(tIn); stopAt = tOut; play(); };
 
-/* timeline: clic = saltar, arrastrar asas = mover inicio/final, arrastrar selección = moverla entera */
-let drag = null;
-const tAt = e => { const r = $('tl').getBoundingClientRect(); return clamp((e.clientX - r.left) / r.width, 0, 1) * dur; };
-$('tl').addEventListener('pointerdown', e => {
-  if (!dur || exporting) return;
-  const t = tAt(e);
-  if (e.target === $('hIn')) drag = { k: 'in' };
-  else if (e.target === $('hOut')) drag = { k: 'out' };
-  else if (e.target === $('sel')) drag = { k: 'move', off: t - tIn, len: tOut - tIn, t0: t };
-  else { drag = null; seekAll(t); return; }
-  $('tl').setPointerCapture(e.pointerId);
-});
-$('tl').addEventListener('pointermove', e => {
-  if (!drag) return; const t = tAt(e);
-  if (drag.k === 'in') setRange(t, tOut, 'in');
-  else if (drag.k === 'out') setRange(tIn, t, 'out');
-  else { const a = clamp(t - drag.off, 0, dur - drag.len); setRange(a, a + drag.len); drag.moved = true; }
-});
-$('tl').addEventListener('pointerup', e => { if (drag && drag.k === 'move' && !drag.moved) seekAll(tAt(e)); drag = null; });
+/* líneas de tiempo (general y ampliada)
+   - toca cerca de un asa (aunque no le des justo) para moverla; mientras arrastras, el visor muestra ese fotograma
+   - arrastra dentro de la selección para moverla entera
+   - toca fuera para saltar a ese punto */
+let scrubT = null;
+function scrub(t) { scrubT = t; if (!aud.seeking) { aud.currentTime = t; } }
+aud.addEventListener('seeked', () => { if (scrubT !== null && Math.abs(aud.currentTime - scrubT) > 0.04) aud.currentTime = scrubT; else scrubT = null; });
+let pendingX = null, rafId = 0;
+function bindTL(el, range) {
+  const tAt = x => { const r = el.getBoundingClientRect(), [a, b] = range(); return a + clamp((x - r.left) / r.width, 0, 1) * (b - a); };
+  const pxOf = t => { const r = el.getBoundingClientRect(), [a, b] = range(); return r.left + (t - a) / (b - a) * r.width; };
+  el.addEventListener('pointerdown', e => {
+    if (!dur || exporting || drag) return;
+    e.preventDefault();
+    const t = tAt(e.clientX), dIn = Math.abs(e.clientX - pxOf(tIn)), dOut = Math.abs(e.clientX - pxOf(tOut)), HIT = 28;
+    const pIn = pxOf(tIn), pOut = pxOf(tOut), narrow = pOut - pIn < 2.5 * HIT;
+    if (narrow && e.clientX > pIn - HIT && e.clientX < pOut + HIT) drag = { k: 'move', off: clamp(t, tIn, tOut) - tIn, len: tOut - tIn, x0: e.clientX };
+    else if (Math.min(dIn, dOut) <= HIT) drag = { k: (dIn < dOut || (dIn === dOut && t <= tIn)) ? 'in' : 'out' };
+    else if (t > tIn && t < tOut) drag = { k: 'move', off: t - tIn, len: tOut - tIn, x0: e.clientX };
+    else drag = { k: 'seek' };
+    drag.el = el; drag.tAt = tAt; drag.wasPlaying = !aud.paused;
+    if (drag.k !== 'move') pause();
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+    el.classList.add('dragging');
+    apply(e.clientX);
+  });
+  el.addEventListener('pointermove', e => {
+    if (!drag || drag.el !== el) return;
+    e.preventDefault(); pendingX = e.clientX;
+    if (!rafId) rafId = requestAnimationFrame(() => { rafId = 0; if (pendingX !== null && drag) apply(pendingX); pendingX = null; });
+  });
+  const end = e => {
+    if (!drag || drag.el !== el) return;
+    const d = drag; drag = null; el.classList.remove('dragging');
+    if (d.k === 'seek') { seekAll(d.tAt(e.clientX)).then(() => { if (d.wasPlaying) play(); }); }
+    else if (d.k === 'move' && !d.moved) seekAll(d.tAt(e.clientX));
+    else if (d.k === 'in') seekAll(tIn); else if (d.k === 'out') seekAll(Math.max(tIn, tOut - 0.05));
+    zoomWindow(); saveRange();
+  };
+  el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+}
+function apply(x) {
+  const t = drag.tAt(x);
+  if (drag.k === 'in') { setRange(t, tOut, 'in'); scrub(tIn); }
+  else if (drag.k === 'out') { setRange(tIn, t, 'out'); scrub(tOut); }
+  else if (drag.k === 'move') { if (Math.abs(x - drag.x0) > 4) drag.moved = true; if (drag.moved) { const a = clamp(t - drag.off, 0, dur - drag.len); setRange(a, a + drag.len); } }
+  else scrub(t);
+}
+bindTL($('tl'), () => [0, dur]);
+bindTL($('zl'), () => [z0, z1]);
+$('zInBtn').onclick = () => { zi = Math.max(0, zi - 1); zoomWindow(); };
+$('zOutBtn').onclick = () => { zi = Math.min(ZOOMS.length - 1, zi + 1); zoomWindow(); };
 $('tl').addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); seekAll(clamp(aud.currentTime + (e.key === 'ArrowLeft' ? -5 : 5), 0, dur)); } });
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT') return;
